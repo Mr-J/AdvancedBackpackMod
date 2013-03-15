@@ -7,7 +7,6 @@ import mrj.advancedbackpackmod.InventoryBackpackBase;
 
 public class CommonProxy implements IGuiHandler {
     public static String ITEMS_PNG = "/mrj/advancedbackpackmod/resources/backpack32.png";
-    public static String BLOCK_PNG = "/mrj/advancedbackpackmod/resources/block32.png";
     public static String BAG_PNG = "/mrj/advancedbackpackmod/resources/container.png";
    
     // Client stuff
@@ -20,13 +19,13 @@ public class CommonProxy implements IGuiHandler {
 			int x, int y, int z) {
 		if (ID == 0)
 		{
-			return new ContainerBackpackBase(9, 6, player.inventory);
+			InventoryBackpackBase myBPInv = new InventoryBackpackBase(9, 6, player.inventory.getCurrentItem(), player);
+			return new ContainerBackpackBase(myBPInv, player.inventory);
 		}
 		else
 		{
 			System.out.println("Error, ID is " + ID + ". This should not happen");
 		}
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -35,13 +34,13 @@ public class CommonProxy implements IGuiHandler {
 			int x, int y, int z) {
 		if (ID == 0)
 		{
-			return new GuiBackpackBase(player.inventory);
+			InventoryBackpackBase myBPInv = new InventoryBackpackBase(9, 6, player.inventory.getCurrentItem(), player);
+			return new GuiBackpackBase(myBPInv, player.inventory);
 		}
 		else
 		{
 			System.out.println("Error, ID is " + ID + ". This should not happen");
 		}
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

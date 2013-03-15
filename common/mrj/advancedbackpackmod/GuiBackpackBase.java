@@ -4,19 +4,21 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
-import mrj.advancedbackpackmod.InventoryBackpackBase;
+//import mrj.advancedbackpackmod.InventoryBackpackBase;
 import mrj.advancedbackpackmod.ContainerBackpackBase;
 
 public class GuiBackpackBase extends GuiContainer {
 	
 	//int x = 248;
 	//int y = 186;
+	ContainerBackpackBase myContainer;
 	
-	public GuiBackpackBase(InventoryPlayer myPlayerInv)
+	public GuiBackpackBase(InventoryBackpackBase myBPInv, InventoryPlayer myPlayerInv)
 	{
-		super(new ContainerBackpackBase(9, 6, myPlayerInv));
-		this.xSize = 248;
-		this.ySize = 186;
+		super(new ContainerBackpackBase(myBPInv, myPlayerInv));
+		myContainer = (ContainerBackpackBase) super.inventorySlots;
+		this.xSize = 176;
+		this.ySize = 222;
 	}
 
 	protected void drawGuiContainerForegroundLayer()
@@ -37,6 +39,6 @@ public class GuiBackpackBase extends GuiContainer {
 	public void onGuiClosed()
 	{
 		super.onGuiClosed();
-		//inventorySlots.getSlot(0).onSlotChanged();
+		inventorySlots.getSlot(0).onSlotChanged();
 	}
 }

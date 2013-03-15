@@ -1,5 +1,10 @@
 package mrj.advancedbackpackmod;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Random;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -9,26 +14,47 @@ import net.minecraft.nbt.NBTTagList;
 public class InventoryBackpackBase implements IInventory {
 	
 	private ItemStack[] myInventory;
-	//private int invSizeX;
-	//private int invSizeY;
+	private int invSizeX;
+	private int invSizeY;
+	private int size;
+	private String uniqueID;
 	
-	public InventoryBackpackBase(int x, int y)
+	public InventoryBackpackBase(int x, int y, ItemStack itemStack, EntityPlayer myPlayer)
 	{
 		myInventory = new ItemStack[x * y];
+		invSizeX = x;
+		invSizeY = y;
+		size = x * y;
+		uniqueID = "";
+		
+		if (!itemStack.hasTagCompound())
+		{
+			itemStack.stackTagCompound = new NBTTagCompound();	
+			//TEST
+			DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+			Calendar cal = Calendar.getInstance();
+			String random = (new Random(50000)).toString();
+			uniqueID = dateFormat.format(cal.getTime()) + random + myPlayer.username;
+		}
+		readFromNBT(itemStack.getTagCompound());
 	}
 
+	public String getName() {
+		return this.uniqueID;
+	}
+	
 	@Override
 	public int getSizeInventory() {
 		return this.myInventory.length;
 	}
 	
-	/**public int getSizeInventoryX() {
+	public int getSizeInventoryX() {
 		return this.invSizeX;
 	}
 	
 	public int getSizeInventoryY() {
 		return this.invSizeY;
-	}**/
+	}
 
 	@Override
 	public ItemStack getStackInSlot(int var1) {
@@ -36,20 +62,36 @@ public class InventoryBackpackBase implements IInventory {
 	}
 
 	@Override
-	public ItemStack decrStackSize(int var1, int var2) {
-		// TODO Auto-generated method stub
+	public ItemStack decrStackSize(int slot, int number) {
+		if (myInventory[slot] == null)
 		return null;
+		ItemStack returnStack;
+		if (myInventory[slot].stackSize > number)
+		{
+			returnStack = myInventory[slot].splitStack(number);
+		}
+		else
+		{
+			returnStack = myInventory[slot];
+			myInventory[slot] = null;
+		}
+		onInventoryChanged();
+		return returnStack;
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int var1) {
-		// TODO Auto-generated method stub
-		return null;
+	public ItemStack getStackInSlotOnClosing(int slot) {
+		ItemStack returnStack = getStackInSlot(slot);
+		setInventorySlotContents(slot, null);
+		return returnStack;
 	}
 
 	@Override
-	public void setInventorySlotContents(int var1, ItemStack var2) {
-		// TODO Auto-generated method stub
+	public void setInventorySlotContents(int slot, ItemStack itemStack) {
+		if (0 <= slot && slot < size)
+		{
+			myInventory[slot] = itemStack;
+		}
 		
 	}
 
@@ -62,81 +104,80 @@ public class InventoryBackpackBase implements IInventory {
 	@Override
 	public int getInventoryStackLimit() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 64;
 	}
 
 	@Override
 	public void onInventoryChanged() {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < size; i++)
+		{
+			ItemStack tempStack = getStackInSlot(i);
+			if (tempStack != null && tempStack.stackSize == 0)
+			{
+				setInventorySlotContents(i, null);
+			}
+		}
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer var1) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isUseableByPlayer(EntityPlayer myPlayer) {
+		return true;
 	}
 
 	@Override
 	public void openChest() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void closeChest() {
-		// TODO Auto-generated method stub
-		
 	}
 	
-	/**
-     * Writes the inventory out as a list of compound tags. This is where the slot indices are used (+100 for armor, +80
-     * for crafting).
-     */
-    public NBTTagList writeToNBT(NBTTagList myNBTTagList)
+	public void readFromNBT(NBTTagCompound myCompound)
     {
-        NBTTagCompound myNBTTagComp;
+        NBTTagCompound contentTag = ((NBTTagCompound) myCompound.getTag("abminventory"));
+        if (contentTag == null)
+        {
+        	return;
+        }
+        
+        if (uniqueID == "")
+        {
+        	uniqueID = myCompound.getString("uniqueID");
+        }
+        
+        NBTTagList myList = contentTag.getTagList("indexList");
+        for (int i = 0; i < myList.tagCount() && i < myInventory.length; i++)
+        {
+        	NBTTagCompound indexTag = (NBTTagCompound) myList.tagAt(i);
+        	int index = indexTag.getInteger("index");
+    		try {
+    			myInventory[index] = ItemStack.loadItemStackFromNBT(indexTag);
+    		} catch ( NullPointerException npe ) {
+    			myInventory[index] = null;
+    		}
+        }
+
+    }
+
+    public void writeToNBT(NBTTagCompound myCompound)
+    {
+        NBTTagList myList = new NBTTagList();
 
         for (int i = 0; i < this.myInventory.length; i++)
         {
-            if (this.myInventory[i] != null)
+            if (this.myInventory[i] != null && this.myInventory[i].stackSize > 0)
             {
-                myNBTTagComp = new NBTTagCompound();
-                myNBTTagComp.setByte("Slot", (byte)i);
-                this.myInventory[i].writeToNBT(myNBTTagComp);
-                myNBTTagList.appendTag(myNBTTagComp);
+                NBTTagCompound indexTag = new NBTTagCompound();
+                myList.appendTag(indexTag);
+                indexTag.setInteger("index", i);
+                myInventory[i].writeToNBT(indexTag);
             }
         }
-
-        return myNBTTagList;
+        NBTTagCompound contentTag = new NBTTagCompound();
+        contentTag.setTag("indexList", myList);
+        myCompound.setTag("abminventory", contentTag);
+        myCompound.setString("uniqueID", uniqueID);
     }
 
-    /**
-     * Reads from the given tag list and fills the slots in the inventory with the correct items.
-     */
-    public void readFromNBT(NBTTagList myNBTTagList)
-    {
-        /**this.myInventory = new ItemStack[this.getSizeInventory()];
-
-        for (int i = 0; i < myNBTTagList.tagCount(); i++)
-        {
-            NBTTagCompound myNBTTagComp = (NBTTagCompound)myNBTTagList.tagAt(i);
-            int j = myNBTTagComp.getByte("Slot") & 0xff;
-            ItemStack tempStack = ItemStack.loadItemStackFromNBT(myNBTTagComp);
-
-            if (tempStack == null)
-            {
-            	if ( j >= 0 && j < myInventory.length)
-            	{
-            		myInventory[j] = tempStack;
-            	}
-            	else
-            	{
-            		System.out.println("Index access error, j out of array bounds");
-            	}
-            }
-        }
-        onInventoryChanged();**/
-    }
-
+    
 }
