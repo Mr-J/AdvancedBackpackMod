@@ -1,5 +1,9 @@
 package mrj.advancedbackpackmod;
 
+import java.io.File;
+
+import mrj.advancedbackpackmod.config.ConfigurationHandler;
+import mrj.advancedbackpackmod.config.ConfigurationStore;
 import net.minecraft.item.Item;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -22,18 +26,20 @@ public class AdvancedBackpackMod {
 	@Instance("AdvancedBackpackMod")
 	public static AdvancedBackpackMod instance;
 	
-	private final static Item baseBackpack = new ItemBackpackBase(5000);
+	private static Item baseBackpack;
 	
 	@SidedProxy(clientSide="mrj.advancedbackpackmod.client.ClientProxy", serverSide="mrj.advancedbackpackmod.CommonProxy")
     public static CommonProxy proxy;
    
     @PreInit
     public void preInit(FMLPreInitializationEvent event) {
-            // Stub Method
+    	ConfigurationHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + "/abm/" + "AdvancedBackpackMod" + ".cfg"));
     }
    
     @Init
     public void load(FMLInitializationEvent event) {
+    	
+    	 	baseBackpack = new ItemBackpackBase(ConfigurationStore.BACKPACK_BASE - 256);
             proxy.registerRenderers();
             LanguageRegistry.addName(baseBackpack, "basic backpack");	
             NetworkRegistry.instance().registerGuiHandler(instance, proxy);

@@ -1,7 +1,8 @@
 package mrj.advancedbackpackmod;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+//import cpw.mods.fml.relauncher.Side;
+//import cpw.mods.fml.relauncher.SideOnly;
+import mrj.advancedbackpackmod.config.ConfigurationStore;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -70,7 +71,7 @@ public class ContainerBackpackBase extends Container {
         	ItemStack tempStack2 = invSlot.getStack();
         	
         	System.out.println("itemID = "+ tempStack2.itemID);
-        	if (tempStack2.itemID == 5256)
+        	if (tempStack2.itemID == ConfigurationStore.BACKPACK_BASE)
         	{
         		//true if the current stack is a ItemBackpackBase Item
         		//replace fixed number with dynamic id
