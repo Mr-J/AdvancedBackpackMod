@@ -28,9 +28,11 @@ public class GuiBackpackBase extends GuiContainer {
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
-		int myTexture = this.mc.renderEngine.getTexture("/mrj/advancedbackpackmod/resources/container.png");
+		
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(myTexture);
+		//this.mc.renderEngine.func_98187_b("mods/advancedbackpackmod/textures/gui/container.png");
+		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/container.png");
+		//mc.renderEngine.bindTexture(myTexture);
 		int x = (this.width - this.xSize) / 2;
 		int y = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);

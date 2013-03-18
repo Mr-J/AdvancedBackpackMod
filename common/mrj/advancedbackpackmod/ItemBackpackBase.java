@@ -1,5 +1,8 @@
 package mrj.advancedbackpackmod;
 
+//import cpw.mods.fml.relauncher.Side;
+//import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,15 +22,15 @@ public class ItemBackpackBase extends Item {
 		
 		setMaxStackSize(1);
 		setCreativeTab(CreativeTabs.tabMisc);
-		setIconIndex(0);
-		setItemName("Base test backpack");
+		//setIconIndex(0);
+		//setItemName("Base test backpack");
 		currentlyUsed = false;
 	}
 	
-	public String getTextureFile()
+	/**public String getTextureFile()
 	{
 		return CommonProxy.ITEMS_PNG;
-	}
+	}**/
 	
 	public ItemStack onItemRightClick(ItemStack myStack, World myWorld, EntityPlayer myPlayer) 
 	{
@@ -60,5 +63,9 @@ public class ItemBackpackBase extends Item {
 			return openContainer instanceof ContainerBackpackBase;
 	}
 
-	
+	@Override
+    public void func_94581_a(IconRegister iconRegister)
+    {
+        this.iconIndex = iconRegister.func_94245_a("advancedbackpackmod:backpack32");
+    }
 }
