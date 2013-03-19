@@ -28,6 +28,7 @@ public class ContainerBackpackBase extends Container {
 			{
 				//container inventory
 				this.addSlotToContainer(new Slot(containerInv, col + row * x, 8 + col * 18, 18 + row * 18));
+				//this.addSlotToContainer(new Slot(containerInv, col + row * x, 8 + col * 18, row * 18));
 			}
 		}
 		for (int i = 0; i < 3; i++)
@@ -36,12 +37,14 @@ public class ContainerBackpackBase extends Container {
 			{
 				//player inventory
 				this.addSlotToContainer(new Slot(myPlayerInv, (i + 1) * 9 + j, 8 + j * 18, 18 + y * 18 + 14 + i * 18));
+				//this.addSlotToContainer(new Slot(myPlayerInv, (i + 1) * 9 + j, 8 + j * 18, y * 18 + 14 + i * 18));
 			}
 		}
 		for (int i = 0; i < 9; i++)
 		{
 			//player bar
 			this.addSlotToContainer(new Slot(myPlayerInv, i, 8 + i * 18, 18 + y * 18 + 14 + 3 * 18 + 4));
+			//this.addSlotToContainer(new Slot(myPlayerInv, i, 8 + i * 18, y * 18 + 14 + 3 * 18 + 4));
 		}
 	}
 
@@ -70,7 +73,7 @@ public class ContainerBackpackBase extends Container {
         {
         	ItemStack tempStack2 = invSlot.getStack();
         	
-        	System.out.println("itemID = "+ tempStack2.itemID);
+        	//System.out.println("itemID = "+ tempStack2.itemID);
         	if (tempStack2.itemID == ConfigurationStore.BACKPACK_BASE)
         	{
         		//true if the current stack is a ItemBackpackBase Item
