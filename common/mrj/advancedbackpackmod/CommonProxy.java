@@ -19,7 +19,7 @@ public class CommonProxy implements IGuiHandler {
 			int x, int y, int z) {
 		if (ID == 0)
 		{
-			InventoryBackpackBase myBPInv = new InventoryBackpackBase(9, 6, player.inventory.getCurrentItem(), player);
+			InventoryBackpackBase myBPInv = new InventoryBackpackBase(player.inventory.getCurrentItem(), player);
 			return new ContainerBackpackBase(myBPInv, player.inventory);
 		}
 		else
@@ -34,7 +34,7 @@ public class CommonProxy implements IGuiHandler {
 			int x, int y, int z) {
 		if (ID == 0)
 		{
-			InventoryBackpackBase myBPInv = new InventoryBackpackBase(9, 6, player.inventory.getCurrentItem(), player);
+			InventoryBackpackBase myBPInv = new InventoryBackpackBase(player.inventory.getCurrentItem(), player);
 			return new GuiBackpackBase(myBPInv, player.inventory);
 		}
 		else

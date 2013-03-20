@@ -14,28 +14,34 @@ import net.minecraft.nbt.NBTTagList;
 public class InventoryBackpackBase implements IInventory {
 	
 	private ItemStack[] myInventory;
-	private int invSizeX;
-	private int invSizeY;
+	//private int invSizeX;
+	//private int invSizeY;
 	private int size;
 	private String uniqueID;
 	
-	public InventoryBackpackBase(int x, int y, ItemStack itemStack, EntityPlayer myPlayer)
+	public InventoryBackpackBase(ItemStack itemStack, EntityPlayer myPlayer)
 	{
-		myInventory = new ItemStack[x * y];
-		invSizeX = x;
-		invSizeY = y;
-		size = x * y;
+		//default values
 		uniqueID = "";
-		
+		//invSizeX = 6;
+		//invSizeY = 9;
+		size = 196;
 		if (!itemStack.hasTagCompound())
 		{
 			itemStack.stackTagCompound = new NBTTagCompound();	
-			//TEST
+			//Generate a random ID for every backpack
 			DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 			Calendar cal = Calendar.getInstance();
 			String random = (new Random(50000)).toString();
 			uniqueID = dateFormat.format(cal.getTime()) + random + myPlayer.username;
 		}
+		else
+		{
+			//read inventory size from nbt
+			readInvSizeFromNBT(itemStack.getTagCompound());
+		}
+		
+		myInventory = new ItemStack[size];
 		readFromNBT(itemStack.getTagCompound());
 	}
 
@@ -48,13 +54,13 @@ public class InventoryBackpackBase implements IInventory {
 		return this.myInventory.length;
 	}
 	
-	public int getSizeInventoryX() {
+	/**public int getSizeInventoryX() {
 		return this.invSizeX;
 	}
 	
 	public int getSizeInventoryY() {
 		return this.invSizeY;
-	}
+	}**/
 
 	@Override
 	public ItemStack getStackInSlot(int var1) {
@@ -132,6 +138,18 @@ public class InventoryBackpackBase implements IInventory {
 	public void closeChest() {
 	}
 	
+	public void readInvSizeFromNBT(NBTTagCompound myCompound)
+	{
+        NBTTagCompound contentTag = ((NBTTagCompound) myCompound.getTag("abminventory"));
+        if (contentTag == null)
+        {
+        	return;
+        }
+        size =  myCompound.getInteger("invSize");
+	}
+	
+	
+	
 	public void readFromNBT(NBTTagCompound myCompound)
     {
         NBTTagCompound contentTag = ((NBTTagCompound) myCompound.getTag("abminventory"));
@@ -177,6 +195,7 @@ public class InventoryBackpackBase implements IInventory {
         contentTag.setTag("indexList", myList);
         myCompound.setTag("abminventory", contentTag);
         myCompound.setString("uniqueID", uniqueID);
+        myCompound.setInteger("invSize", size);
     }
 
 	@Override

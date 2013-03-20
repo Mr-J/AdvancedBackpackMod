@@ -19,8 +19,15 @@ public class GuiBackpackBase extends GuiContainer {
 		myContainer = (ContainerBackpackBase) super.inventorySlots;
 		//this.xSize = 176;
 		//this.ySize = 222;
-		this.xSize = 14 + (myContainer.x * 18);
-		this.ySize = 114 + (myContainer.y * 18); //17 + rows * 18 + 14 + 3 * 18 + 4 + 1 * 18 + 7
+		if (myContainer.invCol >= 9)
+		{
+			this.xSize = 14 + (myContainer.invCol * 18);
+		}
+		else
+		{
+			this.xSize = 176;//14 + 9 * 18;
+		}
+		this.ySize = 114 + (myContainer.invRow * 18); //17 + rows * 18 + 14 + 3 * 18 + 4 + 1 * 18 + 7
 	}
 
 	protected void drawGuiContainerForegroundLayer()
@@ -43,8 +50,8 @@ public class GuiBackpackBase extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
 		GL11.glColor4f(1.0F,  1.0F,  1.0F,  1.0F);
-		int columns = myContainer.x;
-		int rows = myContainer.y;
+		int columns = Math.max(myContainer.invCol, 9);
+		int rows = myContainer.invRow;
 		//this.xSize = 14 + (columns * 18);
 		//this.ySize = 114 + (rows * 18); 
 		int startX = (this.width - this.xSize)/2;
@@ -52,7 +59,113 @@ public class GuiBackpackBase extends GuiContainer {
 		
 		drawContainerTop(startX, startY, columns);
 		drawContainerMiddle(startX, startY + 17, columns, rows);
-		drawContainerBottom(startX, startY + 35 + (rows + 4) * 18, columns);
+		if (myContainer.invSize > columns * rows)
+		{
+			drawContainerBottom(startX, startY + 35 + (rows + 5) * 18, columns);
+		}
+		else
+		{
+			drawContainerBottom(startX, startY + 35 + (rows + 4) * 18, columns);
+		}
+		
+		
+	}
+	
+	private void drawContainerMiddle(int x, int y, int columns, int rows)
+	{
+		int currentX = x;
+		int currentY = y;
+		int rest = myContainer.invSize - (myContainer.invCol * myContainer.invRow);
+		/**System.out.println("myContainer.invSize = " + myContainer.invSize);
+		System.out.println("myContainer.invCol = " + myContainer.invCol);
+		System.out.println("myContainer.invRow = " + myContainer.invRow);		
+		System.out.println("rest = " + rest);**/
+		for (int i = 1; i <= rows; i++)
+		{
+			drawContainerSlotLine(x, currentY, columns - myContainer.invCol, myContainer.invCol);
+			currentY = currentY + 18;
+		}
+		if (rest > 0)
+		{
+			drawContainerSlotLine(x, currentY, columns - rest, rest);
+			currentY = currentY + 18;
+		}
+		drawContainerUpperSeperator(currentX, currentY, columns);
+		currentY = currentY + 14;
+		for (int i = 1; i <= 3; i++)
+		{
+			drawContainerSlotLine(x, currentY, columns - 9, 9);
+			currentY = currentY + 18;
+		}
+		drawContainerLowerSeperator(currentX, currentY, columns);
+		currentY = currentY + 4;
+		drawContainerSlotLine(x, currentY, columns - 9, 9);
+	}
+	
+	private void drawContainerSlotLine(int x, int y, int fillers, int slots)
+	{
+		int currentX = x;
+		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiSlotLeft.png");
+		drawTexturedModalRect(currentX, y, 0, 0, 7, 18);
+		currentX = currentX + 7;
+		if (fillers > 0)
+		{
+			mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiHalfFiller.png");
+			for (int i = 1; i <= fillers; i++)
+			{	
+				drawTexturedModalRect(currentX, y, 0, 0, 9, 18);
+				currentX = currentX + 9;
+			}
+		}
+		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiSlot.png");
+		for (int i = 1; i <= slots; i++)
+		{
+			drawTexturedModalRect(currentX, y, 0, 0, 18, 18);
+			currentX = currentX + 18;
+		}
+		if (fillers > 0)
+		{
+			mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiHalfFiller.png");
+			for (int i = 1; i <= fillers; i++)
+			{	
+				drawTexturedModalRect(currentX, y, 0, 0, 9, 18);
+				currentX = currentX + 9;
+			}
+		}
+		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiSlotRight.png");
+		drawTexturedModalRect(currentX, y, 0, 0, 7, 18);
+	}
+	
+	private void drawContainerUpperSeperator (int x, int y, int columns)
+	{
+		int currentX = x;
+		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiUpperSeperatorLeft.png");
+		drawTexturedModalRect(currentX, y, 0, 0, 7, 14);
+		currentX = currentX + 7;
+		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiUpperSeperatorMiddle.png");
+		for (int i = 1; i <= columns; i++)
+		{
+			drawTexturedModalRect(currentX, y, 0, 0, 18, 14);
+			currentX = currentX + 18;
+		}
+		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiUpperSeperatorRight.png");
+		drawTexturedModalRect(currentX, y, 0, 0, 7, 14);
+	}
+	
+	private void drawContainerLowerSeperator (int x, int y, int columns)
+	{
+		int currentX = x;
+		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiLowerSeperatorLeft.png");
+		drawTexturedModalRect(currentX, y, 0, 0, 7, 4);
+		currentX = currentX + 7;
+		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiLowerSeperatorMiddle.png");
+		for (int i = 1; i <= columns; i++)
+		{
+			drawTexturedModalRect(currentX, y, 0, 0, 18, 4);
+			currentX = currentX + 18;
+		}
+		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiLowerSeperatorRight.png");
+		drawTexturedModalRect(currentX, y, 0, 0, 7, 4);
 	}
 	
 	private void drawContainerTop(int x, int y, int columns)
@@ -75,9 +188,26 @@ public class GuiBackpackBase extends GuiContainer {
 		drawTexturedModalRect(currentX, y, 0, 0, 18, 17);
 	}
 	
-	private void drawContainerMiddle(int x, int y, int columns, int rows) {
+	private void drawContainerBottom(int x, int y, int columns) {
+		int currentX = x;
+		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiBottomLeft.png");
+		drawTexturedModalRect(currentX, y, 0, 0, 7, 7);
+		currentX = currentX + 7;
+		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiBottomMiddle.png");
+		for (int i = 1; i <= columns; i++)
+		{
+			drawTexturedModalRect(currentX, y, 0, 0, 18, 7);
+			currentX = currentX + 18;
+		}
+		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiBottomRight.png");
+		drawTexturedModalRect(currentX, y, 0, 0, 7, 7);
+	}
+	
+	/**private void drawContainerMiddle(int x, int y, int columns, int rows) {
 		int currentX = x;
 		int currentY = y;
+		int slotDiff = 9 - myContainer.invCol;
+		int rest = myContainer.containerInv.getSizeInventory() - (myContainer.invCol * myContainer.invRow);
 		
 		//draw the container inventory
 		for (int i = 1; i <= rows; i++)
@@ -85,17 +215,79 @@ public class GuiBackpackBase extends GuiContainer {
 			mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiSlotLeft.png");
 			drawTexturedModalRect(currentX, currentY, 0, 0, 7, 18);
 			currentX = currentX + 7;
+
+			//maybe own method
+			if (slotDiff > 0)
+			{
+				mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiHalfFiller.png");
+				
+				for (int k = 1; k <= slotDiff; k++)
+				{
+					drawTexturedModalRect(currentX, currentY, 0, 0, 9, 18);
+					currentX = currentX + 9;
+				}
+			}
+			//**********************
 			mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiSlot.png");
 			for (int j = 1; j <= columns; j++)
 			{
 				drawTexturedModalRect(currentX, currentY, 0, 0, 18, 18);
 				currentX = currentX + 18;
 			}
+			
+			//maybe own method
+			if (slotDiff > 0)
+			{
+				mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiHalfFiller.png");
+				
+				for (int k = 1; k <= slotDiff; k++)
+				{
+					drawTexturedModalRect(currentX, currentY, 0, 0, 9, 18);
+					currentX = currentX + 9;
+				}
+			}
+			//**********************
 			mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiSlotRight.png");
 			drawTexturedModalRect(currentX, currentY, 0, 0, 7, 18);
 			currentY = currentY + 18;
 			currentX = x;
 		}
+		
+		if (rest > 0)
+		{
+			//draw the rest slots of the container inventory
+			//left side
+			mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiSlotLeft.png");
+			drawTexturedModalRect(currentX, currentY, 0, 0, 7, 18);
+			currentX = currentX + 7;
+		
+			int fillerNumber = columns - rest;
+			//left fillers
+			for (int i = 1; i <= fillerNumber; i++)
+			{
+				mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiHalfFiller.png");
+				drawTexturedModalRect(currentX, currentY, 0, 0, 9, 18);
+				currentX = currentX + 9;
+			}
+			//rest slots
+			for (int i = 1; i <= rest; i++)
+			{
+				mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiSlot.png");
+				drawTexturedModalRect(currentX, currentY, 0, 0, 18, 18);
+				currentX = currentX + 18;
+			}
+			//right filler
+			mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiHalfFiller.png");
+			drawTexturedModalRect(currentX, currentY, 0, 0, 9, 18);
+			currentX = currentX + 9;
+
+			//right side
+			mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiSlotRight.png");
+			drawTexturedModalRect(currentX, currentY, 0, 0, 7, 18);
+			currentY = currentY + 18;
+			currentX = x;		
+		}
+		
 		
 		//draw the separator to the player inventory
 		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiUpperSeperatorLeft.png");
@@ -163,23 +355,8 @@ public class GuiBackpackBase extends GuiContainer {
 		drawTexturedModalRect(currentX, currentY, 0, 0, 7, 18);
 		currentY = currentY + 18;
 		currentX = x;
-	}
+	}**/
 	
-	private void drawContainerBottom(int x, int y, int columns) {
-		int currentX = x;
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiBottomLeft.png");
-		drawTexturedModalRect(currentX, y, 0, 0, 7, 7);
-		currentX = currentX + 7;
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiBottomMiddle.png");
-		for (int i = 1; i <= columns; i++)
-		{
-			drawTexturedModalRect(currentX, y, 0, 0, 18, 7);
-			currentX = currentX + 18;
-		}
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiBottomRight.png");
-		drawTexturedModalRect(currentX, y, 0, 0, 7, 7);
-		
-	}
 		
 	public void onGuiClosed()
 	{
