@@ -1,7 +1,5 @@
 package mrj.advancedbackpackmod;
 
-//import cpw.mods.fml.relauncher.Side;
-//import cpw.mods.fml.relauncher.SideOnly;
 import mrj.advancedbackpackmod.config.ConfigurationStore;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -16,14 +14,11 @@ public class ContainerBackpackBase extends Container {
 
 	int invRow, invCol, colPlayer, invSize, rest;
 	InventoryBackpackBase containerInv;
-	//boolean containerPickedUp = false;
 	
 	public ContainerBackpackBase(InventoryBackpackBase myBPInv, InventoryPlayer myPlayerInv)
 	{
 		containerInv = myBPInv;
 		invSize = containerInv.getSizeInventory();
-		//x = myBPInv.getSizeInventoryX();
-		//y = myBPInv.getSizeInventoryY();
 		if (invSize < 55)
 		{
 			if (invSize < 9)
@@ -34,18 +29,17 @@ public class ContainerBackpackBase extends Container {
 			{
 				invCol = 9;
 			}
-			invRow = (containerInv.getSizeInventory() / invCol + 2);
+			invRow = (containerInv.getSizeInventory() / invCol);
 		}
 		else
 		{
 			invCol = 10;
-			while ((containerInv.getSizeInventory() / invCol) > invCol)
+			invRow = (containerInv.getSizeInventory()/ invCol);
+			while (invRow > (invCol - 2))
 			{
-				//System.out.println("containerInv.getSizeInventory() / invCol = " + containerInv.getSizeInventory() / invCol +
-				//		" invCol = " + invCol + " => resizing");
 				invCol++;
+				invRow = (containerInv.getSizeInventory() / invCol);
 			}
-			invRow = (containerInv.getSizeInventory() / invCol);
 		}
 		rest = containerInv.getSizeInventory() - (invCol * invRow);
 		
@@ -104,111 +98,6 @@ public class ContainerBackpackBase extends Container {
 		
 	}
 	
-		//calculate x & y from the inventory size
-		/**
-		
-
-		int currentX = 8;
-		int currentY = 18;
-		/**if (invCol <= 9)
-		{
-			//set the container inv slots
-			//float offset = rest/2;
-			for (int row = 0; row < invRow; row++)
-			{
-				for (int col = 0; col < invCol; col++)
-				{
-					this.addSlotToContainer(new Slot(containerInv, col + row * invCol, currentX, currentY));
-					currentX = currentX + 18;
-				}
-				currentY = currentY + 18;
-			}
-			currentX = 8;
-			if (rest > 0)
-			{
-				currentX = currentX + 9 * rest;
-				for (int i = 0; i < rest; i++)
-				{
-					this.addSlotToContainer(new Slot(containerInv, i + invRow * invCol, currentX, currentY));
-				}
-				currentX = currentX + 18;
-			}
-			//add upper seperator y-value and reset x
-			currentY = currentY + 14;
-			currentX = 8;
-			
-			//set the player inv slots
-			for (int i = 0; i < 3; i++)
-			{
-				for (int j = 0; j < 9; j++)
-				{
-					this.addSlotToContainer(new Slot(myPlayerInv, (i + 1) * 9 + j, currentX, currentY)); 
-					currentX = currentX + 18;
-				}
-				currentY = currentY + 18;				
-			}
-			//add lower seperator y-value and reset x
-			currentY = currentY + 4;
-			currentX = 8;
-			
-			//set the player hotbar slots
-			for (int i = 0; i < 9; i++)
-			{
-				this.addSlotToContainer(new Slot(myPlayerInv, i, 8 + i * 18, 36 + (invRow + 3) * 18)); //18 + y * 18 + 14 + 3 * 18 + 4
-			}
-		}
-		else //colInv > 9
-		{
-			//set the container inv slots
-			//float offset = rest/2;
-			for (int row = 0; row < invRow; row++)
-			{
-				for (int col = 0; col < invCol; col++)
-				{
-					this.addSlotToContainer(new Slot(containerInv, col + row * invCol, 8 + col * 18, 18 + row * 18));
-				}
-			}
-			//set the player inv slots
-			for (int i = 0; i < 3; i++)
-			{
-				for (int j = 0; j < 9; j++)
-				{
-					this.addSlotToContainer(new Slot(myPlayerInv, (i + 1) * 9 + j, 8 + rest * 9 + j * 18, 32 + (invRow + i) * 18)); //last element = 18 + invRow * 18 + 14 + i * 18
-				}
-			}
-			//set the player hotbar slots
-			for (int i = 0; i < 9; i++)
-			{
-				this.addSlotToContainer(new Slot(myPlayerInv, i, 8 + rest * 9 + i * 18, 36 + (invRow + 3) * 18)); //18 + y * 18 + 14 + 3 * 18 + 4
-			}
-		}
-		
-		/**for (int row = 0; row < y; row++)
-		{
-			for (int col = 0; col < x; col++)
-			{
-				//container inventory
-				this.addSlotToContainer(new Slot(containerInv, col + row * x, 8 + col * 18, 18 + row * 18));
-				//this.addSlotToContainer(new Slot(containerInv, col + row * x, 8 + col * 18, row * 18));
-			}
-		}
-		for (int i = 0; i < 3; i++)
-		{
-			for (int j = 0; j < 9; j++)
-			{
-				//player inventory
-				this.addSlotToContainer(new Slot(myPlayerInv, (i + 1) * 9 + j, 8 + j * 18, 18 + y * 18 + 14 + i * 18));
-				//this.addSlotToContainer(new Slot(myPlayerInv, (i + 1) * 9 + j, 8 + j * 18, y * 18 + 14 + i * 18));
-			}
-		}
-		for (int i = 0; i < 9; i++)
-		{
-			//player bar
-			this.addSlotToContainer(new Slot(myPlayerInv, i, 8 + i * 18, 18 + y * 18 + 14 + 3 * 18 + 4));
-			//this.addSlotToContainer(new Slot(myPlayerInv, i, 8 + i * 18, y * 18 + 14 + 3 * 18 + 4));
-		}**/
-	
-
 	@Override
 	public boolean canInteractWith(EntityPlayer myPlayer) {
 		 
@@ -234,7 +123,6 @@ public class ContainerBackpackBase extends Container {
         {
         	ItemStack tempStack2 = invSlot.getStack();
         	
-        	//System.out.println("itemID = "+ tempStack2.itemID);
         	if (tempStack2.itemID == ConfigurationStore.BACKPACK_BASE)
         	{
         		//true if the current stack is a ItemBackpackBase Item
@@ -242,7 +130,6 @@ public class ContainerBackpackBase extends Container {
         		InventoryBackpackBase chkInv = new InventoryBackpackBase(tempStack2, myPlayer);
         		if (chkInv.getName() == containerInv.getName())
         		{
-        			//System.out.println("container can not be inserted into itself");
         			return tempStack;
         		}
         	}
@@ -291,7 +178,6 @@ public class ContainerBackpackBase extends Container {
 		
 		if (tmpSlot != null && tmpSlot.isSlotInInventory(player.inventory, player.inventory.currentItem))
 		{
-			//System.out.println("tried to move a opened container around, dont do that!");
 			return tmpSlot.getStack();
 		}
 		return super.slotClick(slotID, buttonPressed, flag, player);

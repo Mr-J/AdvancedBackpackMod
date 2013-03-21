@@ -22,11 +22,10 @@ public class ItemBackpackBase extends Item {
 		
 		setMaxStackSize(1);
 		setCreativeTab(CreativeTabs.tabMisc);
-		//setIconIndex(0);
-		//setItemName("Base test backpack");
 		currentlyUsed = false;
 	}
 	
+	//OBSOLETE
 	/**public String getTextureFile()
 	{
 		return CommonProxy.ITEMS_PNG;

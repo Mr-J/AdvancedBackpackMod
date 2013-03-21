@@ -1,9 +1,10 @@
 package mrj.advancedbackpackmod;
 
-import java.text.DateFormat;
+/**import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Random;
+import java.util.Random;**/
+import java.util.UUID;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -14,8 +15,6 @@ import net.minecraft.nbt.NBTTagList;
 public class InventoryBackpackBase implements IInventory {
 	
 	private ItemStack[] myInventory;
-	//private int invSizeX;
-	//private int invSizeY;
 	private int size;
 	private String uniqueID;
 	
@@ -23,17 +22,16 @@ public class InventoryBackpackBase implements IInventory {
 	{
 		//default values
 		uniqueID = "";
-		//invSizeX = 6;
-		//invSizeY = 9;
-		size = 196;
+		size = 27;
 		if (!itemStack.hasTagCompound())
 		{
 			itemStack.stackTagCompound = new NBTTagCompound();	
 			//Generate a random ID for every backpack
-			DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+			/**DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 			Calendar cal = Calendar.getInstance();
 			String random = (new Random(50000)).toString();
-			uniqueID = dateFormat.format(cal.getTime()) + random + myPlayer.username;
+			uniqueID = dateFormat.format(cal.getTime()) + random + myPlayer.username;**/
+			uniqueID = UUID.randomUUID().toString() + myPlayer.username;
 		}
 		else
 		{
@@ -54,14 +52,6 @@ public class InventoryBackpackBase implements IInventory {
 		return this.myInventory.length;
 	}
 	
-	/**public int getSizeInventoryX() {
-		return this.invSizeX;
-	}
-	
-	public int getSizeInventoryY() {
-		return this.invSizeY;
-	}**/
-
 	@Override
 	public ItemStack getStackInSlot(int var1) {
 		return myInventory[var1];

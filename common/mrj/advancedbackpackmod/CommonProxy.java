@@ -6,8 +6,6 @@ import cpw.mods.fml.common.network.IGuiHandler;
 import mrj.advancedbackpackmod.InventoryBackpackBase;
 
 public class CommonProxy implements IGuiHandler {
-    //public static String ITEMS_PNG = "/mrj/advancedbackpackmod/resources/backpack32.png";
-    //public static String BAG_PNG = "/mrj/advancedbackpackmod/resources/container.png";
    
     // Client stuff
     public void registerRenderers() {

@@ -19,3 +19,4 @@ Changelog
 - 0.2alpha: working with Minecraft 1.5
 - 0.2.1alpha: container gui is now modular, different inventory sizes possible, needs some tweaking
 - 0.3alpha: inventories with variable sizes now available, config file option coming soon
+- 0.3.1alpha: recipe added: leather/enderpearl/leather, leather/chest/leather, leather/emerald/leather
