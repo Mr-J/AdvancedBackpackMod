@@ -33,11 +33,19 @@ public class ContainerBackpackBase extends Container {
 		}
 		else
 		{
-			invCol = 10;
-			invRow = (containerInv.getSizeInventory()/ invCol);
-			while (invRow > (invCol - 2))
+			if (ConfigurationStore.BACKPACK_FIXED_COLUMN_SIZE == false)
 			{
-				invCol++;
+				invCol = 10;
+				invRow = (containerInv.getSizeInventory()/ invCol);
+				while (invRow > (invCol - 2))
+				{
+					invCol++;
+					invRow = (containerInv.getSizeInventory() / invCol);
+				}
+			}
+			else
+			{
+				invCol = 9;
 				invRow = (containerInv.getSizeInventory() / invCol);
 			}
 		}
@@ -126,10 +134,11 @@ public class ContainerBackpackBase extends Container {
         	if (tempStack2.itemID == ConfigurationStore.BACKPACK_BASE)
         	{
         		//true if the current stack is a ItemBackpackBase Item
-        		//replace fixed number with dynamic id
+        		
         		InventoryBackpackBase chkInv = new InventoryBackpackBase(tempStack2, myPlayer);
         		if (chkInv.getName() == containerInv.getName())
         		{
+        			//System.out.println("here1");
         			return tempStack;
         		}
         	}
@@ -142,23 +151,31 @@ public class ContainerBackpackBase extends Container {
         		//if(!this.mergeItemStack(tempStack2, this.x * this.y, this.inventorySlots.size(), true))
         		if(!this.mergeItemStack(tempStack2, invSize, this.inventorySlots.size(), true))
 	        	{
+        			//System.out.println("here2");
         			return null;
         		}
         	}
         	//else if (!this.mergeItemStack(tempStack2, 0, this.x * this.y, false))
         	else if (!this.mergeItemStack(tempStack2, 0, invSize, false))
         	{
+        		//System.out.println("here3");
         		return null;
         	}
         	
         	if (tempStack2.stackSize == 0)
         	{
+        		//System.out.println("here4");
         		invSlot.putStack((ItemStack)null);
         	}
         	else 
         	{
+        		//System.out.println("here5");
         		invSlot.onSlotChanged();
         	}
+        }
+        else
+        {
+        	//System.out.println("here6");
         }
         return tempStack;
     }
@@ -166,6 +183,7 @@ public class ContainerBackpackBase extends Container {
 	@Override
 	public ItemStack slotClick(int slotID, int buttonPressed, int flag, EntityPlayer player)
     {
+		
 		Slot tmpSlot;
 		if (slotID >= 0 && slotID < inventorySlots.size())
 		{
@@ -173,13 +191,21 @@ public class ContainerBackpackBase extends Container {
 		}
 		else
 		{
+			//should never pick a item from a slot greater than the number of inventory slots
 			tmpSlot = null;
 		}
 		
 		if (tmpSlot != null && tmpSlot.isSlotInInventory(player.inventory, player.inventory.currentItem))
 		{
+			//can not pick the current opened container up
 			return tmpSlot.getStack();
 		}
+		System.out.println("slotID = " + slotID);
+		System.out.println("buttonPressed = " + buttonPressed);
+		System.out.println("flag = " + flag);
+		System.out.println("player = " + player);
+		System.out.println("*********************************");
+		
 		return super.slotClick(slotID, buttonPressed, flag, player);
     }
 }

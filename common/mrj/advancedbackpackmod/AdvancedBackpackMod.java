@@ -4,10 +4,12 @@ import java.io.File;
 
 import mrj.advancedbackpackmod.config.ConfigurationHandler;
 import mrj.advancedbackpackmod.config.ConfigurationStore;
+import mrj.advancedbackpackmod.recipe.RecipeExtendBackpack;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -30,7 +32,7 @@ public class AdvancedBackpackMod {
 	@Instance("AdvancedBackpackMod")
 	public static AdvancedBackpackMod instance;
 	
-	private static Item baseBackpack;
+	public static Item baseBackpack;
 	
 	@SidedProxy(clientSide="mrj.advancedbackpackmod.client.ClientProxy", serverSide="mrj.advancedbackpackmod.CommonProxy")
     public static CommonProxy proxy;
@@ -50,6 +52,8 @@ public class AdvancedBackpackMod {
             
             GameRegistry.addRecipe(new ItemStack(baseBackpack), "aba", "aca", "ada", 'a', new ItemStack(Item.leather),
             		'b', new ItemStack(Item.enderPearl), 'c', new ItemStack(Block.chest), 'd', new ItemStack(Item.emerald));
+            
+            CraftingManager.getInstance().getRecipeList().add(new RecipeExtendBackpack());
     }
    
     @PostInit

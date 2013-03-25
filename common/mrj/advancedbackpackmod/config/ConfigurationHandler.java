@@ -29,6 +29,8 @@ public class ConfigurationHandler {
 			myConfig.save();
 		}
 		
+		ConfigurationStore.BACKPACK_FIXED_COLUMN_SIZE = ConfigurationStore.BACKPACK_FIXED_COLUMN_SIZE_DEFAULT;
+		
 	}
 
 }

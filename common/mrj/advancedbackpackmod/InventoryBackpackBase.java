@@ -18,11 +18,13 @@ public class InventoryBackpackBase implements IInventory {
 	private int size;
 	private String uniqueID;
 	
+	
+	//will be deprecated soon
 	public InventoryBackpackBase(ItemStack itemStack, EntityPlayer myPlayer)
 	{
 		//default values
 		uniqueID = "";
-		size = 27;
+		size = 195;
 		if (!itemStack.hasTagCompound())
 		{
 			itemStack.stackTagCompound = new NBTTagCompound();	
@@ -31,7 +33,39 @@ public class InventoryBackpackBase implements IInventory {
 			Calendar cal = Calendar.getInstance();
 			String random = (new Random(50000)).toString();
 			uniqueID = dateFormat.format(cal.getTime()) + random + myPlayer.username;**/
-			uniqueID = UUID.randomUUID().toString() + myPlayer.username;
+			uniqueID = UUID.randomUUID().toString();
+		}
+		else
+		{
+			//read inventory size from nbt
+			readInvSizeFromNBT(itemStack.getTagCompound());
+		}
+		
+		myInventory = new ItemStack[size];
+		readFromNBT(itemStack.getTagCompound());
+	}
+	
+	public InventoryBackpackBase(ItemStack itemStack, EntityPlayer myPlayer, int invSize)
+	{
+		//default values
+		uniqueID = "";
+		if (!itemStack.hasTagCompound())
+		{
+			if (invSize == 0)
+			{
+				size = 36;
+			}
+			else
+			{
+				size = invSize;
+			}
+			itemStack.stackTagCompound = new NBTTagCompound();	
+			//Generate a random ID for every backpack
+			/**DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+			Calendar cal = Calendar.getInstance();
+			String random = (new Random(50000)).toString();
+			uniqueID = dateFormat.format(cal.getTime()) + random + myPlayer.username;**/
+			uniqueID = UUID.randomUUID().toString();
 		}
 		else
 		{
@@ -198,6 +232,13 @@ public class InventoryBackpackBase implements IInventory {
 	public boolean func_94041_b(int i, ItemStack itemstack) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public void increaseSize(int i) {
+		ItemStack[] newInventory = new ItemStack[size + i];
+		System.arraycopy(myInventory, 0, newInventory, 0, size);
+		size = size + i;
+		
 	}
 
     

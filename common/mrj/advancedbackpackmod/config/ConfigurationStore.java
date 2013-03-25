@@ -17,9 +17,14 @@ public class ConfigurationStore {
 	 */
 	public static int BACKPACK_BASE_DEFAULT = 22100;
 	
+	
+	public static boolean BACKPACK_FIXED_COLUMN_SIZE_DEFAULT = false;
+	
 	/*
 	 * Current Item IDs
 	 */
 	
 	public static int BACKPACK_BASE;
+	
+	public static boolean BACKPACK_FIXED_COLUMN_SIZE;
 }

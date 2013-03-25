@@ -24,14 +24,29 @@ public class GuiBackpackBase extends GuiContainer {
 		{
 			this.xSize = 176;//14 + 9 * 18;
 		}
-		this.ySize = 114 + (myContainer.invRow * 18); //17 + rows * 18 + 14 + 3 * 18 + 4 + 1 * 18 + 7
+		//error maybe here?
+		if (myContainer.rest > 0)
+		{
+			this.ySize = 114 + ((myContainer.invRow + 1) * 18);
+		}
+		else
+		{
+			this.ySize = 114 + (myContainer.invRow * 18); //17 + rows * 18 + 14 + 3 * 18 + 4 + 1 * 18 + 7
+		}
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int var1, int var2)
 	{
 		fontRenderer.drawString("Backpack ("+ myContainer.invSize+" Slots)", 8, 6, 4210752);
-		fontRenderer.drawString("Inventory", 8, this.ySize - 96 + 2, 4210752);
+		if (myContainer.rest > 0)
+		{
+			fontRenderer.drawString("Inventory", 8, this.ySize - 78 + 2, 4210752);
+		}
+		else
+		{
+			fontRenderer.drawString("Inventory", 8, this.ySize - 96 + 2, 4210752);
+		}
 	}	
 	
 	@Override
