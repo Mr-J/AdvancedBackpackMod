@@ -45,7 +45,7 @@ public class AdvancedBackpackMod {
     @Init
     public void load(FMLInitializationEvent event) {
     	
-    	 	baseBackpack = new ItemBackpackBase(ConfigurationStore.BACKPACK_BASE - 256);
+    	 	baseBackpack = new ItemBackpackBase(ConfigurationStore.BACKPACK_BASE_ID - 256);
             proxy.registerRenderers();
             LanguageRegistry.addName(baseBackpack, "Backpack");	
             NetworkRegistry.instance().registerGuiHandler(instance, proxy);

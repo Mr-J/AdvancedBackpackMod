@@ -39,14 +39,14 @@ public class GuiBackpackBase extends GuiContainer {
 	protected void drawGuiContainerForegroundLayer(int var1, int var2)
 	{
 		fontRenderer.drawString("Backpack ("+ myContainer.invSize+" Slots)", 8, 6, 4210752);
-		if (myContainer.rest > 0)
+		/**if (myContainer.rest > 0)
 		{
 			fontRenderer.drawString("Inventory", 8, this.ySize - 78 + 2, 4210752);
 		}
 		else
-		{
+		{**/
 			fontRenderer.drawString("Inventory", 8, this.ySize - 96 + 2, 4210752);
-		}
+		//}
 	}	
 	
 	@Override

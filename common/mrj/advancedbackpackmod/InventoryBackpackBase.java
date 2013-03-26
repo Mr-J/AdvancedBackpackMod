@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Random;**/
 import java.util.UUID;
 
+import mrj.advancedbackpackmod.config.ConfigurationStore;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -24,15 +25,11 @@ public class InventoryBackpackBase implements IInventory {
 	{
 		//default values
 		uniqueID = "";
-		size = 195;
+		size = ConfigurationStore.BACKPACK_BASE_SIZE;
 		if (!itemStack.hasTagCompound())
 		{
 			itemStack.stackTagCompound = new NBTTagCompound();	
 			//Generate a random ID for every backpack
-			/**DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-			Calendar cal = Calendar.getInstance();
-			String random = (new Random(50000)).toString();
-			uniqueID = dateFormat.format(cal.getTime()) + random + myPlayer.username;**/
 			uniqueID = UUID.randomUUID().toString();
 		}
 		else
@@ -43,6 +40,8 @@ public class InventoryBackpackBase implements IInventory {
 		
 		myInventory = new ItemStack[size];
 		readFromNBT(itemStack.getTagCompound());
+		
+		//new InventoryBackpackBase(itemStack, myPlayer, ConfigurationStore.BACKPACK_BASE_SIZE);
 	}
 	
 	public InventoryBackpackBase(ItemStack itemStack, EntityPlayer myPlayer, int invSize)
@@ -53,7 +52,7 @@ public class InventoryBackpackBase implements IInventory {
 		{
 			if (invSize == 0)
 			{
-				size = 36;
+				size = ConfigurationStore.BACKPACK_BASE_SIZE;
 			}
 			else
 			{

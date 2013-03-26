@@ -131,7 +131,7 @@ public class ContainerBackpackBase extends Container {
         {
         	ItemStack tempStack2 = invSlot.getStack();
         	
-        	if (tempStack2.itemID == ConfigurationStore.BACKPACK_BASE)
+        	if (tempStack2.itemID == ConfigurationStore.BACKPACK_BASE_ID)
         	{
         		//true if the current stack is a ItemBackpackBase Item
         		

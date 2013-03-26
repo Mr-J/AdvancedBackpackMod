@@ -1,7 +1,5 @@
 package mrj.advancedbackpackmod.recipe;
 
-import java.util.ArrayList;
-
 import mrj.advancedbackpackmod.AdvancedBackpackMod;
 import mrj.advancedbackpackmod.InventoryBackpackBase;
 import mrj.advancedbackpackmod.ItemBackpackBase;
@@ -26,7 +24,7 @@ public class RecipeExtendBackpack implements IRecipe {
 		}
 		
 		int[] recipeComponents = {Item.silk.itemID, Item.enderPearl.itemID, Item.silk.itemID,
-									Item.emerald.itemID, ConfigurationStore.BACKPACK_BASE, Item.emerald.itemID,
+									Item.emerald.itemID, ConfigurationStore.BACKPACK_BASE_ID, Item.emerald.itemID,
 									Item.silk.itemID, Item.blazeRod.itemID, Item.silk.itemID};
 		
 		for (int i = 0; i < 3; i++)
@@ -58,6 +56,12 @@ public class RecipeExtendBackpack implements IRecipe {
 			}
 		}
 		
+		InventoryBackpackBase tmpInv = new InventoryBackpackBase(inventoryCrafting.getStackInRowAndColumn(1,1), null);
+		if (tmpInv.getSizeInventory() >= ConfigurationStore.BACKPACK_MAX_SIZE)
+		{
+			return false;
+		}
+		
 		//upgradeBag = inventoryCrafting.getStackInRowAndColumn(1, 1);
 		/**if (!(upgradeBag.getItem() instanceof ItemBackpackBase))
 		{
@@ -84,7 +88,15 @@ public class RecipeExtendBackpack implements IRecipe {
 		{
 			System.out.println("item in slot 1/1 is backpack, copy its contents to new backpack");
 			InventoryBackpackBase tempInv = new InventoryBackpackBase(inventoryCrafting.getStackInRowAndColumn(1,1), null);
-			InventoryBackpackBase upgradeInv = new InventoryBackpackBase(itemStack, null, tempInv.getSizeInventory() + 3);
+			InventoryBackpackBase upgradeInv;
+			if (tempInv.getSizeInventory() + ConfigurationStore.BACKPACK_UPGRADE_INCREMENT <= ConfigurationStore.BACKPACK_MAX_SIZE)
+			{
+				upgradeInv = new InventoryBackpackBase(itemStack, null, tempInv.getSizeInventory() + ConfigurationStore.BACKPACK_UPGRADE_INCREMENT);
+			}
+			else
+			{
+				upgradeInv = new InventoryBackpackBase(itemStack, null, ConfigurationStore.BACKPACK_MAX_SIZE);
+			}
 			for (int i = 0; i < tempInv.getSizeInventory(); i++)
 			{
 				System.out.println("copying slot " + i + " now");
