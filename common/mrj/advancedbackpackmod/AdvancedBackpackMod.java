@@ -4,6 +4,7 @@ import java.io.File;
 
 import mrj.advancedbackpackmod.config.ConfigurationHandler;
 import mrj.advancedbackpackmod.config.ConfigurationStore;
+import mrj.advancedbackpackmod.recipe.RecipeColorBackpack;
 import mrj.advancedbackpackmod.recipe.RecipeExtendBackpack;
 
 import net.minecraft.block.Block;
@@ -54,6 +55,7 @@ public class AdvancedBackpackMod {
             		'b', new ItemStack(Item.enderPearl), 'c', new ItemStack(Block.chest), 'd', new ItemStack(Item.emerald));
             
             CraftingManager.getInstance().getRecipeList().add(new RecipeExtendBackpack());
+            CraftingManager.getInstance().getRecipeList().add(new RecipeColorBackpack());
     }
    
     @PostInit

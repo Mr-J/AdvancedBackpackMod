@@ -200,11 +200,11 @@ public class ContainerBackpackBase extends Container {
 			//can not pick the current opened container up
 			return tmpSlot.getStack();
 		}
-		System.out.println("slotID = " + slotID);
+		/**System.out.println("slotID = " + slotID);
 		System.out.println("buttonPressed = " + buttonPressed);
 		System.out.println("flag = " + flag);
 		System.out.println("player = " + player);
-		System.out.println("*********************************");
+		System.out.println("*********************************");**/
 		
 		return super.slotClick(slotID, buttonPressed, flag, player);
     }

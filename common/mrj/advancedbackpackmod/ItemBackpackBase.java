@@ -2,6 +2,8 @@ package mrj.advancedbackpackmod;
 
 //import cpw.mods.fml.relauncher.Side;
 //import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -10,11 +12,21 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
 public class ItemBackpackBase extends Item {
 	
-	boolean currentlyUsed;
+	//boolean currentlyUsed;
+	//public int currentColor;
+	public static final String[] colorNames = new String[] {"black", "red", "green", 
+																"brown", "blue", "purple", 
+																"cyan", "silver", "gray", 
+																"pink", "lime", "yellow", 
+																"lightBlue", "magenta", "orange", "white"};
+	
+	private Icon[] icons;
 	
 	public ItemBackpackBase(int id)
 	{
@@ -22,7 +34,8 @@ public class ItemBackpackBase extends Item {
 		
 		setMaxStackSize(1);
 		setCreativeTab(CreativeTabs.tabMisc);
-		currentlyUsed = false;
+		//currentColor = -1;
+		//currentlyUsed = false;
 	}
 	
 	//OBSOLETE
@@ -62,9 +75,76 @@ public class ItemBackpackBase extends Item {
 			return openContainer instanceof ContainerBackpackBase;
 	}
 
+	
+	//register icons
 	@Override
+	@SideOnly(Side.CLIENT)
     public void func_94581_a(IconRegister iconRegister)
     {
-        this.iconIndex = iconRegister.func_94245_a("advancedbackpackmod:backpack32");
+		icons = new Icon[17];
+		
+		icons[0] = iconRegister.func_94245_a("advancedbackpackmod:backpack32");
+		
+		for (int i = 1; i < 17; i++)
+		{
+			icons[i] = iconRegister.func_94245_a("advancedbackpackmod:backpack32" + colorNames[i-1]);
+		}
     }
+	
+	@Override
+	public Icon getIcon(ItemStack itemStack, int renderPass)
+	{
+		//System.out.println("currentColor = " + currentColor);
+		//System.out.println("icon index = " + (((ItemBackpackBase)itemStack.getItem()).currentColor)+1);
+		//return icons[((ItemBackpackBase)itemStack.getItem()).currentColor+1];
+		//System.out.println(icons[0]);
+		return icons[getColor(itemStack) + 1];
+	}
+	
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses() {
+
+        return true;
+    }
+	
+	/**@Override
+	@SideOnly(Side.CLIENT)
+    public Icon getIconFromDamage(int par1)
+    {
+        getIcon(super., par1);
+    }**/
+	
+	public int getColor(ItemStack itemStack)
+	{
+		NBTTagCompound nbtTagCompound = itemStack.getTagCompound();
+		
+		if (nbtTagCompound == null)
+		{
+			return -1;
+		}
+		if (nbtTagCompound.hasKey("color"))
+		{
+			return nbtTagCompound.getInteger("color");
+		}
+		else
+		{
+			return -1;			
+		}
+	}
+	
+	public void setColor(ItemStack itemStack, int color)
+	{
+		NBTTagCompound nbtTagCompound = itemStack.getTagCompound();
+		if (nbtTagCompound == null)
+		{
+			nbtTagCompound = new NBTTagCompound();
+			itemStack.setTagCompound(nbtTagCompound);
+		}
+		//if (nbtTagCompound.hasKey("color"))
+		//{
+			nbtTagCompound.setInteger("color", color);
+		//}
+	}
+
 }

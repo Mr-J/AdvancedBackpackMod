@@ -86,7 +86,7 @@ public class RecipeExtendBackpack implements IRecipe {
 		//upgradeBP.increaseSize(4);
 		if (inventoryCrafting.getStackInRowAndColumn(1,1).getItem() instanceof ItemBackpackBase)
 		{
-			System.out.println("item in slot 1/1 is backpack, copy its contents to new backpack");
+			//System.out.println("item in slot 1/1 is backpack, copy its contents to new backpack");
 			InventoryBackpackBase tempInv = new InventoryBackpackBase(inventoryCrafting.getStackInRowAndColumn(1,1), null);
 			InventoryBackpackBase upgradeInv;
 			if (tempInv.getSizeInventory() + ConfigurationStore.BACKPACK_UPGRADE_INCREMENT <= ConfigurationStore.BACKPACK_MAX_SIZE)
@@ -99,19 +99,20 @@ public class RecipeExtendBackpack implements IRecipe {
 			}
 			for (int i = 0; i < tempInv.getSizeInventory(); i++)
 			{
-				System.out.println("copying slot " + i + " now");
+				//System.out.println("copying slot " + i + " now");
 				if (tempInv.getStackInSlot(i) != null)
 				{
-					System.out.println("content of slot is " + tempInv.getStackInSlot(i).toString());
+					//System.out.println("content of slot is " + tempInv.getStackInSlot(i).toString());
 				}
 				upgradeInv.setInventorySlotContents(i, tempInv.getStackInSlot(i));
 				if (upgradeInv.getStackInSlot(i) != null)
 				{
-					System.out.println("content of new slot is " + upgradeInv.getStackInSlot(i).toString());
+					//System.out.println("content of new slot is " + upgradeInv.getStackInSlot(i).toString());
 				}
 				tempInv.setInventorySlotContents(i, null);
 				upgradeInv.writeToNBT(itemStack.stackTagCompound);
 			}
+			((ItemBackpackBase)itemStack.getItem()).setColor(itemStack, ((ItemBackpackBase)inventoryCrafting.getStackInRowAndColumn(1,1).getItem()).getColor(inventoryCrafting.getStackInRowAndColumn(1,1)));
 			return itemStack;
 		}
 		else

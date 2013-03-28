@@ -27,3 +27,4 @@ Changelog
 				- a maximum size for the backpack (default 108)
 				- a number for the additional slots per upgrade (default 3)
 				- an option to draw the inventory with fixed column size 9 or variable depending on slots (default false)
+- 0.3.4alpha: now with colors! backpack + dye = dyed backpack
