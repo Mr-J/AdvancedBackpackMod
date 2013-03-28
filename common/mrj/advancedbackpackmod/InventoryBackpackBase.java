@@ -221,7 +221,7 @@ public class InventoryBackpackBase implements IInventory {
         myCompound.setInteger("invSize", size);
     }
 
-	@Override
+	/**@Override
 	public boolean func_94042_c() {
 		// TODO Auto-generated method stub
 		return false;
@@ -231,13 +231,25 @@ public class InventoryBackpackBase implements IInventory {
 	public boolean func_94041_b(int i, ItemStack itemstack) {
 		// TODO Auto-generated method stub
 		return false;
-	}
+	}**/
 
 	public void increaseSize(int i) {
 		ItemStack[] newInventory = new ItemStack[size + i];
 		System.arraycopy(myInventory, 0, newInventory, 0, size);
 		size = size + i;
 		
+	}
+
+	@Override
+	public boolean isInvNameLocalized() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
     

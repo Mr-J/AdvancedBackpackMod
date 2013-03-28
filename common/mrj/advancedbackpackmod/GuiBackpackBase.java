@@ -101,19 +101,22 @@ public class GuiBackpackBase extends GuiContainer {
 	private void drawContainerSlotLine(int x, int y, int fillers, int slots)
 	{
 		int currentX = x;
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiSlotLeft.png");
+		//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiSlotLeft.png");
+		mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiSlotLeft.png");
 		drawTexturedModalRect(currentX, y, 0, 0, 7, 18);
 		currentX = currentX + 7;
 		if (fillers > 0)
 		{
-			mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiHalfFiller.png");
+			//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiHalfFiller.png");
+			mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiHalfFiller.png");
 			for (int i = 1; i <= fillers; i++)
 			{	
 				drawTexturedModalRect(currentX, y, 0, 0, 9, 18);
 				currentX = currentX + 9;
 			}
 		}
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiSlot.png");
+		//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiSlot.png");
+		mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiSlot.png");
 		for (int i = 1; i <= slots; i++)
 		{
 			drawTexturedModalRect(currentX, y, 0, 0, 18, 18);
@@ -121,46 +124,54 @@ public class GuiBackpackBase extends GuiContainer {
 		}
 		if (fillers > 0)
 		{
-			mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiHalfFiller.png");
+			//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiHalfFiller.png");
+			mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiHalfFiller.png");
 			for (int i = 1; i <= fillers; i++)
 			{	
 				drawTexturedModalRect(currentX, y, 0, 0, 9, 18);
 				currentX = currentX + 9;
 			}
 		}
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiSlotRight.png");
+		//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiSlotRight.png");
+		mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiSlotRight.png");
 		drawTexturedModalRect(currentX, y, 0, 0, 7, 18);
 	}
 	
 	private void drawContainerUpperSeperator (int x, int y, int columns)
 	{
 		int currentX = x;
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiUpperSeperatorLeft.png");
+		//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiUpperSeperatorLeft.png");
+		mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiUpperSeperatorLeft.png");
 		drawTexturedModalRect(currentX, y, 0, 0, 7, 14);
 		currentX = currentX + 7;
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiUpperSeperatorMiddle.png");
+		//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiUpperSeperatorMiddle.png");
+		mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiUpperSeperatorMiddle.png");
 		for (int i = 1; i <= columns; i++)
 		{
 			drawTexturedModalRect(currentX, y, 0, 0, 18, 14);
 			currentX = currentX + 18;
 		}
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiUpperSeperatorRight.png");
+		//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiUpperSeperatorRight.png");
+		mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiUpperSeperatorRight.png");
 		drawTexturedModalRect(currentX, y, 0, 0, 7, 14);
 	}
 	
 	private void drawContainerLowerSeperator (int x, int y, int columns)
 	{
 		int currentX = x;
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiLowerSeperatorLeft.png");
+		//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiLowerSeperatorLeft.png");
+		mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiLowerSeperatorLeft.png");
 		drawTexturedModalRect(currentX, y, 0, 0, 7, 4);
 		currentX = currentX + 7;
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiLowerSeperatorMiddle.png");
+		//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiLowerSeperatorMiddle.png");
+		mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiLowerSeperatorMiddle.png");
 		for (int i = 1; i <= columns; i++)
 		{
 			drawTexturedModalRect(currentX, y, 0, 0, 18, 4);
 			currentX = currentX + 18;
 		}
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiLowerSeperatorRight.png");
+		//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiLowerSeperatorRight.png");
+		mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiLowerSeperatorRight.png");
 		drawTexturedModalRect(currentX, y, 0, 0, 7, 4);
 	}
 	
@@ -168,34 +179,40 @@ public class GuiBackpackBase extends GuiContainer {
 	{
 		int currentX = x;
 		//draw the top left corner
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiTopLeft.png");
+		//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiTopLeft.png");
+		mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiTopLeft.png");
 		drawTexturedModalRect(currentX, y, 0, 0, 7, 17);
 		//next element will be +18 on the x-axis
 		currentX = currentX + 7;
 		//draw the top middle parts
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiTopMiddle.png");
+		//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiTopMiddle.png");
+		mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiTopMiddle.png");
 		for (int i = 1; i <= columns; i++)
 		{
 			drawTexturedModalRect(currentX, y, 0, 0, 18, 17);
 			currentX = currentX + 18;
 		}
 		//draw the top right corner
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiTopRight.png");
+		//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiTopRight.png");
+		mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiTopRight.png");
 		drawTexturedModalRect(currentX, y, 0, 0, 18, 17);
 	}
 	
 	private void drawContainerBottom(int x, int y, int columns) {
 		int currentX = x;
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiBottomLeft.png");
+		//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiBottomLeft.png");
+		mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiBottomLeft.png");
 		drawTexturedModalRect(currentX, y, 0, 0, 7, 7);
 		currentX = currentX + 7;
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiBottomMiddle.png");
+		//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiBottomMiddle.png");
+		mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiBottomMiddle.png");
 		for (int i = 1; i <= columns; i++)
 		{
 			drawTexturedModalRect(currentX, y, 0, 0, 18, 7);
 			currentX = currentX + 18;
 		}
-		mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiBottomRight.png");
+		//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiBottomRight.png");
+		mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiBottomRight.png");
 		drawTexturedModalRect(currentX, y, 0, 0, 7, 7);
 	}
 			
