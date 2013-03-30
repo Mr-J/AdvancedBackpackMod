@@ -5,6 +5,16 @@ import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 import mrj.advancedbackpackmod.InventoryBackpackBase;
 
+/**
+ * Advanced Backpack Mod
+ * 
+ * CommonProxy
+ * 
+ * @author MrJ
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class CommonProxy implements IGuiHandler {
    
     // Client stuff
@@ -17,7 +27,12 @@ public class CommonProxy implements IGuiHandler {
 			int x, int y, int z) {
 		if (ID == 0)
 		{
-			InventoryBackpackBase myBPInv = new InventoryBackpackBase(player.inventory.getCurrentItem(), player);
+			InventoryBackpackBase myBPInv = new InventoryBackpackBase(player.inventory.getCurrentItem(), player, 0);
+			return new ContainerBackpackBase(myBPInv, player.inventory);
+		}
+		else if (ID == 1)
+		{
+			InventoryBackpackMagic myBPInv = new InventoryBackpackMagic(player.inventory.getCurrentItem(), player, -1);
 			return new ContainerBackpackBase(myBPInv, player.inventory);
 		}
 		else
@@ -32,7 +47,12 @@ public class CommonProxy implements IGuiHandler {
 			int x, int y, int z) {
 		if (ID == 0)
 		{
-			InventoryBackpackBase myBPInv = new InventoryBackpackBase(player.inventory.getCurrentItem(), player);
+			InventoryBackpackBase myBPInv = new InventoryBackpackBase(player.inventory.getCurrentItem(), player, 0);
+			return new GuiBackpackBase(myBPInv, player.inventory);
+		}
+		else if (ID == 1)
+		{
+			InventoryBackpackMagic myBPInv = new InventoryBackpackMagic(player.inventory.getCurrentItem(), player, -1);
 			return new GuiBackpackBase(myBPInv, player.inventory);
 		}
 		else

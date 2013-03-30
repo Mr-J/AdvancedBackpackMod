@@ -9,13 +9,22 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+/**
+ * Advanced Backpack Mod
+ * 
+ * ContainerBackpackBase
+ * 
+ * @author MrJ
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
 
 public class ContainerBackpackBase extends Container {
 
 	int invRow, invCol, colPlayer, invSize, rest;
-	InventoryBackpackBase containerInv;
+	InventoryBackpackGeneral containerInv;
 	
-	public ContainerBackpackBase(InventoryBackpackBase myBPInv, InventoryPlayer myPlayerInv)
+	public ContainerBackpackBase(InventoryBackpackGeneral myBPInv, InventoryPlayer myPlayerInv)
 	{
 		containerInv = myBPInv;
 		invSize = containerInv.getSizeInventory();
@@ -135,7 +144,7 @@ public class ContainerBackpackBase extends Container {
         	{
         		//true if the current stack is a ItemBackpackBase Item
         		
-        		InventoryBackpackBase chkInv = new InventoryBackpackBase(tempStack2, myPlayer);
+        		InventoryBackpackBase chkInv = new InventoryBackpackBase(tempStack2, myPlayer, 0);
         		if (chkInv.getName() == containerInv.getName())
         		{
         			//System.out.println("here1");

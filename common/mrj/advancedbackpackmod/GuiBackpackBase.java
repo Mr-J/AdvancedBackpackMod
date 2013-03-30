@@ -7,12 +7,22 @@ import net.minecraft.entity.player.InventoryPlayer;
 //import mrj.advancedbackpackmod.InventoryBackpackBase;
 import mrj.advancedbackpackmod.ContainerBackpackBase;
 
+/**
+ * Advanced Backpack Mod
+ * 
+ * GuiBackpackBase
+ * 
+ * @author MrJ
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class GuiBackpackBase extends GuiContainer {
 	
 
 	ContainerBackpackBase myContainer;
 	
-	public GuiBackpackBase(InventoryBackpackBase myBPInv, InventoryPlayer myPlayerInv)
+	public GuiBackpackBase(InventoryBackpackGeneral myBPInv, InventoryPlayer myPlayerInv)
 	{
 		super(new ContainerBackpackBase(myBPInv, myPlayerInv));
 		myContainer = (ContainerBackpackBase) super.inventorySlots;

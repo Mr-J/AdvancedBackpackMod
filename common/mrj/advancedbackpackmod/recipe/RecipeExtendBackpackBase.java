@@ -10,7 +10,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 
-public class RecipeExtendBackpack implements IRecipe {
+/**
+ * Advanced Backpack Mod
+ * 
+ * RecipeExtendBackpackBase
+ * 
+ * @author MrJ
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
+public class RecipeExtendBackpackBase implements IRecipe {
 
 	@Override
 	public boolean matches(InventoryCrafting inventoryCrafting, World world) {
@@ -56,8 +66,8 @@ public class RecipeExtendBackpack implements IRecipe {
 			}
 		}
 		
-		InventoryBackpackBase tmpInv = new InventoryBackpackBase(inventoryCrafting.getStackInRowAndColumn(1,1), null);
-		if (tmpInv.getSizeInventory() >= ConfigurationStore.BACKPACK_MAX_SIZE)
+		InventoryBackpackBase tmpInv = new InventoryBackpackBase(inventoryCrafting.getStackInRowAndColumn(1,1), null, 0);
+		if (tmpInv.getSizeInventory() >= ConfigurationStore.BACKPACK_BASE_MAX_SIZE)
 		{
 			return false;
 		}
@@ -87,15 +97,15 @@ public class RecipeExtendBackpack implements IRecipe {
 		if (inventoryCrafting.getStackInRowAndColumn(1,1).getItem() instanceof ItemBackpackBase)
 		{
 			//System.out.println("item in slot 1/1 is backpack, copy its contents to new backpack");
-			InventoryBackpackBase tempInv = new InventoryBackpackBase(inventoryCrafting.getStackInRowAndColumn(1,1), null);
+			InventoryBackpackBase tempInv = new InventoryBackpackBase(inventoryCrafting.getStackInRowAndColumn(1,1), null, 0);
 			InventoryBackpackBase upgradeInv;
-			if (tempInv.getSizeInventory() + ConfigurationStore.BACKPACK_UPGRADE_INCREMENT <= ConfigurationStore.BACKPACK_MAX_SIZE)
+			if (tempInv.getSizeInventory() + ConfigurationStore.BACKPACK_BASE_UPGRADE_INCREMENT <= ConfigurationStore.BACKPACK_BASE_MAX_SIZE)
 			{
-				upgradeInv = new InventoryBackpackBase(itemStack, null, tempInv.getSizeInventory() + ConfigurationStore.BACKPACK_UPGRADE_INCREMENT);
+				upgradeInv = new InventoryBackpackBase(itemStack, null, tempInv.getSizeInventory() + ConfigurationStore.BACKPACK_BASE_UPGRADE_INCREMENT);
 			}
 			else
 			{
-				upgradeInv = new InventoryBackpackBase(itemStack, null, ConfigurationStore.BACKPACK_MAX_SIZE);
+				upgradeInv = new InventoryBackpackBase(itemStack, null, ConfigurationStore.BACKPACK_BASE_MAX_SIZE);
 			}
 			for (int i = 0; i < tempInv.getSizeInventory(); i++)
 			{

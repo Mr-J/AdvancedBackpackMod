@@ -16,6 +16,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
+/**
+ * Advanced Backpack Mod
+ * 
+ * ItemBackpackBase
+ * 
+ * @author MrJ
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+
 public class ItemBackpackBase extends Item {
 	
 	//boolean currentlyUsed;
@@ -144,10 +154,7 @@ public class ItemBackpackBase extends Item {
 			nbtTagCompound = new NBTTagCompound();
 			itemStack.setTagCompound(nbtTagCompound);
 		}
-		//if (nbtTagCompound.hasKey("color"))
-		//{
-			nbtTagCompound.setInteger("color", color);
-		//}
+		nbtTagCompound.setInteger("color", color);
 	}
 
 }

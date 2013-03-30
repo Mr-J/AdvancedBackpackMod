@@ -2,12 +2,23 @@ package mrj.advancedbackpackmod.recipe;
 
 import mrj.advancedbackpackmod.config.ConfigurationStore;
 import mrj.advancedbackpackmod.ItemBackpackBase;
+import mrj.advancedbackpackmod.ItemBackpackMagic;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+/**
+ * Advanced Backpack Mod
+ * 
+ * RecipeColorBackpack
+ * 
+ * @author MrJ
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
 
 public class RecipeColorBackpack implements IRecipe {
 
@@ -31,7 +42,8 @@ public class RecipeColorBackpack implements IRecipe {
 						colorFound = true;
 					}
 				}
-				else if (inventoryCrafting.getStackInSlot(i).itemID == ConfigurationStore.BACKPACK_BASE_ID)
+				else if (inventoryCrafting.getStackInSlot(i).itemID == ConfigurationStore.BACKPACK_BASE_ID ||
+						inventoryCrafting.getStackInSlot(i).itemID == ConfigurationStore.BACKPACK_MAGIC_ID)
 				{
 					if (backpackFound)
 					{
@@ -68,7 +80,8 @@ public class RecipeColorBackpack implements IRecipe {
 					color = MathHelper.clamp_int(inventoryCrafting.getStackInSlot(i).getItemDamage(), 0, 15);
 					//System.out.println("color = " + color);
 				}
-				else if (inventoryCrafting.getStackInSlot(i).itemID == ConfigurationStore.BACKPACK_BASE_ID)
+				else if (inventoryCrafting.getStackInSlot(i).itemID == ConfigurationStore.BACKPACK_BASE_ID ||
+						inventoryCrafting.getStackInSlot(i).itemID == ConfigurationStore.BACKPACK_MAGIC_ID)
 				{
 					itemStack = inventoryCrafting.getStackInSlot(i);
 				}

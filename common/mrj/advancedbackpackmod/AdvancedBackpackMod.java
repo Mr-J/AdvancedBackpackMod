@@ -5,7 +5,8 @@ import java.io.File;
 import mrj.advancedbackpackmod.config.ConfigurationHandler;
 import mrj.advancedbackpackmod.config.ConfigurationStore;
 import mrj.advancedbackpackmod.recipe.RecipeColorBackpack;
-import mrj.advancedbackpackmod.recipe.RecipeExtendBackpack;
+//import mrj.advancedbackpackmod.recipe.RecipeExtendBackpack;
+import mrj.advancedbackpackmod.recipe.RecipeExtendBackpackBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -25,6 +26,15 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
+/**
+ * Advanced Backpack Mod
+ * 
+ * AdvancedBackpackMod
+ * 
+ * @author MrJ
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
 @Mod(modid="AdvancedBackpackMod", name="Advanced Backpack Mod", version="0.0.1a")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 
@@ -34,6 +44,7 @@ public class AdvancedBackpackMod {
 	public static AdvancedBackpackMod instance;
 	
 	public static Item baseBackpack;
+	public static Item magicBackpack;
 	
 	@SidedProxy(clientSide="mrj.advancedbackpackmod.client.ClientProxy", serverSide="mrj.advancedbackpackmod.CommonProxy")
     public static CommonProxy proxy;
@@ -46,16 +57,20 @@ public class AdvancedBackpackMod {
     @Init
     public void load(FMLInitializationEvent event) {
     	
-    	 	baseBackpack = new ItemBackpackBase(ConfigurationStore.BACKPACK_BASE_ID - 256);
-            proxy.registerRenderers();
-            LanguageRegistry.addName(baseBackpack, "Backpack");	
-            NetworkRegistry.instance().registerGuiHandler(instance, proxy);
-            
-            GameRegistry.addRecipe(new ItemStack(baseBackpack), "aba", "aca", "ada", 'a', new ItemStack(Item.leather),
-            		'b', new ItemStack(Item.enderPearl), 'c', new ItemStack(Block.chest), 'd', new ItemStack(Item.emerald));
-            
-            CraftingManager.getInstance().getRecipeList().add(new RecipeExtendBackpack());
-            CraftingManager.getInstance().getRecipeList().add(new RecipeColorBackpack());
+    	proxy.registerRenderers(); 	
+    	
+    	baseBackpack = new ItemBackpackBase(ConfigurationStore.BACKPACK_BASE_ID - 256).setUnlocalizedName("Bag of Holding");
+        LanguageRegistry.addName(baseBackpack, "Bag of Holding");	        
+        magicBackpack = new ItemBackpackMagic(ConfigurationStore.BACKPACK_MAGIC_ID - 256).setUnlocalizedName("Portable Pocketdimension");
+        LanguageRegistry.addName(magicBackpack, "Portable Pocketdimension");	
+        
+        NetworkRegistry.instance().registerGuiHandler(instance, proxy);
+        
+        GameRegistry.addRecipe(new ItemStack(baseBackpack), "aba", "aca", "ada", 'a', new ItemStack(Item.leather),
+        		'b', new ItemStack(Item.enderPearl), 'c', new ItemStack(Block.chest), 'd', new ItemStack(Item.emerald));
+        
+        CraftingManager.getInstance().getRecipeList().add(new RecipeExtendBackpackBase());
+        CraftingManager.getInstance().getRecipeList().add(new RecipeColorBackpack());
     }
    
     @PostInit
