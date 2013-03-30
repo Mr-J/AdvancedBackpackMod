@@ -102,8 +102,8 @@ public class InventoryBackpackGeneral implements IInventory {
 	public void increaseSize(int i) {
 		ItemStack[] newInventory = new ItemStack[size + i];
 		System.arraycopy(myInventory, 0, newInventory, 0, size);
+		myInventory = newInventory;
 		size = size + i;
-		
 	}
 	
 	public String getName() {

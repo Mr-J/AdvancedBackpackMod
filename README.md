@@ -29,3 +29,4 @@ Changelog
 				- an option to draw the inventory with fixed column size 9 or variable depending on slots (default false)
 - 0.3.4alpha: now with colors! backpack + dye = dyed backpack
 - 0.3.5alpha: "magic" backpacks with persistent inventories available, currently with no recipe and no different icons per color but in a working state
+- 0.3.6alpha: all backpacks can now dyed & some preparations for adding a shift-click functionality, currently doing nothing

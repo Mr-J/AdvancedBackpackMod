@@ -36,7 +36,11 @@ public class ItemBackpackBase extends Item {
 																"pink", "lime", "yellow", 
 																"lightBlue", "magenta", "orange", "white"};
 	
-	private Icon[] icons;
+	public static final String[] colorNumbers = new String[] {"191919", "CC4C4C", "667F33", "7F664C", "3366CC", "B266E5", 
+													"4C99B2", "999999", "4C4C4C", "F2B2CC", "7FCC19", "E5E533", 
+													"99B2F2", "E57FD8", "F2B233", "FFFFFF"};
+	
+	protected Icon[] icons;
 	
 	public ItemBackpackBase(int id)
 	{
@@ -58,7 +62,14 @@ public class ItemBackpackBase extends Item {
 	{
 		if (!myWorld.isRemote)
 		{
-			myPlayer.openGui(AdvancedBackpackMod.instance, 0, myPlayer.worldObj, (int)myPlayer.posX, (int)myPlayer.posY, (int)myPlayer.posZ);
+			if(!myPlayer.isSneaking())
+			{
+				myPlayer.openGui(AdvancedBackpackMod.instance, 0, myPlayer.worldObj, (int)myPlayer.posX, (int)myPlayer.posY, (int)myPlayer.posZ);
+			}
+			else
+			{
+				System.out.println("player is sneaking, use shared inventory mode for backpackbase");
+			}
 		}		
 		return myStack;
 	}
@@ -92,7 +103,7 @@ public class ItemBackpackBase extends Item {
     //public void func_94581_a(IconRegister iconRegister)
 	public void updateIcons(IconRegister iconRegister)
     {
-		icons = new Icon[17];
+		/**icons = new Icon[17];
 		
 		//icons[0] = iconRegister.func_94245_a("advancedbackpackmod:backpack32");
 		icons[0] = iconRegister.registerIcon("advancedbackpackmod:backpack32");
@@ -101,7 +112,10 @@ public class ItemBackpackBase extends Item {
 		{
 			//icons[i] = iconRegister.func_94245_a("advancedbackpackmod:backpack32" + colorNames[i-1]);
 			icons[i] = iconRegister.registerIcon("advancedbackpackmod:backpack32" + colorNames[i-1]);
-		}
+		}**/
+		icons = new Icon[2];
+		icons[0] = iconRegister.registerIcon("advancedbackpackmod:backpack32colorless");
+		icons[1] = iconRegister.registerIcon("advancedbackpackmod:backpack32outline");
     }
 	
 	@Override
@@ -111,7 +125,16 @@ public class ItemBackpackBase extends Item {
 		//System.out.println("icon index = " + (((ItemBackpackBase)itemStack.getItem()).currentColor)+1);
 		//return icons[((ItemBackpackBase)itemStack.getItem()).currentColor+1];
 		//System.out.println(icons[0]);
-		return icons[getColor(itemStack) + 1];
+		
+		//return icons[getColor(itemStack) + 1];
+		if (renderPass != 1)
+		{
+			return icons[0];
+		}
+		else
+		{
+			return icons[1];
+		}
 	}
 	
     @Override
@@ -157,4 +180,22 @@ public class ItemBackpackBase extends Item {
 		nbtTagCompound.setInteger("color", color);
 	}
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack itemStack, int renderPass) {
+
+        if (renderPass == 1)
+            return Integer.parseInt(colorNumbers[15], 16);
+        else {
+            int bagColor = this.getColor(itemStack);
+
+            if (bagColor < 0) {
+                return Integer.parseInt("4D250B", 16);
+            }
+            else
+            {
+            	return Integer.parseInt(colorNumbers[bagColor], 16);
+            }
+        }
+    }
 }
