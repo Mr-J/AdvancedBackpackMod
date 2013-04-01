@@ -86,7 +86,7 @@ public class RecipeExtendBackpackBase implements IRecipe {
 
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inventoryCrafting) {
-
+		System.out.println("getCraftingResult was called");
 		ItemStack itemStack = null;
 		//ItemBackpackBase upgradeBP = null;
 		

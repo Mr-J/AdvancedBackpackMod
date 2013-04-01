@@ -83,29 +83,29 @@ public class InventoryBackpackMagic extends InventoryBackpackGeneral {
 			//general magic inventory tag found
 			
 			NBTTagCompound colorInventoryMagic = (NBTTagCompound) abmInventoryMagic.getTag("inventoryMagic" + currentColor);
-			System.out.println("loading from inventoryMagic" + currentColor);
+			//System.out.println("loading from inventoryMagic" + currentColor);
 			if (colorInventoryMagic != null)
 			{
-				System.out.println("load: colorInventory tag found");
+				//System.out.println("load: colorInventory tag found");
 				//color specific inventory tag found
 				NBTTagCompound contentTag = (NBTTagCompound) colorInventoryMagic.getTag("abminventory");
 				if (contentTag != null)
 				{
-					System.out.println("content tag found");
+					//System.out.println("content tag found");
 					NBTTagList myList = contentTag.getTagList("indexList");
 					for (int i = 0; i < myList.tagCount() && i < super.myInventory.length; i++)
 					{
-						System.out.print("loading index "+ i);
+						//System.out.print("loading index "+ i);
 						NBTTagCompound indexTag = (NBTTagCompound) myList.tagAt(i);
 						int index = indexTag.getInteger("index");
 						try {
 							super.myInventory[index] = ItemStack.loadItemStackFromNBT(indexTag);
-							System.out.println(" successful");
+							//System.out.println(" successful");
 						} 
 						catch ( NullPointerException npe ) 
 						{
 							super.myInventory[index] = null;
-							System.out.println(" failed");
+							//System.out.println(" failed");
 						}
 					}
 				}

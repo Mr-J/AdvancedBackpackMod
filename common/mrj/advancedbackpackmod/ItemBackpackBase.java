@@ -4,16 +4,20 @@ package mrj.advancedbackpackmod;
 //import cpw.mods.fml.relauncher.SideOnly;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.Icon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 /**
@@ -69,6 +73,41 @@ public class ItemBackpackBase extends Item {
 			else
 			{
 				System.out.println("player is sneaking, use shared inventory mode for backpackbase");
+				MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(myWorld, myPlayer, true);
+				if (movingobjectposition != null)
+				{
+					if (movingobjectposition.typeOfHit == EnumMovingObjectType.TILE)
+		            {
+		                int i = movingobjectposition.blockX;
+		                int j = movingobjectposition.blockY;
+		                int k = movingobjectposition.blockZ;
+		                
+		                //int id = myWorld.getBlockId(i, j, k);
+		                //System.out.println("clicked block is " + id);
+		                //System.out.println(movingobjectposition.typeOfHit);
+		                //System.out.println(movingobjectposition.entityHit);
+		                
+		                //myWorld.getBlockTileEntity(i,  j, k).getBlockType();
+		                
+		               if (myWorld.getBlockTileEntity(i, j, k) != null)
+		               {
+		            	   if (BlockContainer.class.isAssignableFrom(((Object)myWorld.getBlockTileEntity(i,  j, k).getBlockType()).getClass()))
+		            	   {
+		            		   System.out.println("this is a subclass of BlockContainer");
+		            		   try 
+		            		   {
+		            			   IInventory testInv = (IInventory) myWorld.getBlockTileEntity(i, j, k);
+			            		   System.out.println("inventory size = " + testInv.getSizeInventory());
+		            		   }
+		            		   catch(ClassCastException e)
+		            		   {
+		            			   System.out.println("has no IInventory");
+		            		   }
+		            		   
+		            	   }
+		               }             
+		            }
+				}
 			}
 		}		
 		return myStack;

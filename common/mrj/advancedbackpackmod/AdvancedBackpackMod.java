@@ -45,6 +45,7 @@ public class AdvancedBackpackMod {
 	
 	public static Item baseBackpack;
 	public static Item magicBackpack;
+	public static Item powerCore;
 	
 	@SidedProxy(clientSide="mrj.advancedbackpackmod.client.ClientProxy", serverSide="mrj.advancedbackpackmod.CommonProxy")
     public static CommonProxy proxy;
@@ -63,11 +64,18 @@ public class AdvancedBackpackMod {
         LanguageRegistry.addName(baseBackpack, "Bag of Holding");	        
         magicBackpack = new ItemBackpackMagic(ConfigurationStore.BACKPACK_MAGIC_ID - 256).setUnlocalizedName("Portable Pocketdimension");
         LanguageRegistry.addName(magicBackpack, "Portable Pocketdimension");	
+        powerCore = new ItemNetherPowerCore(22102-256).setUnlocalizedName("Nether Power Core");
+        LanguageRegistry.addName(powerCore, "Nether Power Core");
+        
         
         NetworkRegistry.instance().registerGuiHandler(instance, proxy);
         
         GameRegistry.addRecipe(new ItemStack(baseBackpack), "aba", "aca", "ada", 'a', new ItemStack(Item.leather),
         		'b', new ItemStack(Item.enderPearl), 'c', new ItemStack(Block.chest), 'd', new ItemStack(Item.emerald));
+        GameRegistry.addRecipe(new ItemStack(powerCore), "aaa", "aba", "aaa", 'a', new ItemStack(Item.redstone), 
+        		'b', new ItemStack(Item.netherStar));
+        GameRegistry.addRecipe(new ItemStack(magicBackpack), "aba", "aca", "ada", 'a', new ItemStack(Item.leather),
+        		'b', new ItemStack(Item.enderPearl), 'c', new ItemStack(Block.enderChest), 'd', new ItemStack(powerCore));
         
         CraftingManager.getInstance().getRecipeList().add(new RecipeExtendBackpackBase());
         CraftingManager.getInstance().getRecipeList().add(new RecipeColorBackpack());
