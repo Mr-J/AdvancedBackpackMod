@@ -4,6 +4,7 @@ package mrj.advancedbackpackmod;
 //import cpw.mods.fml.relauncher.SideOnly;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import mrj.advancedbackpackmod.config.ConfigurationStore;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -116,6 +117,8 @@ public class ItemBackpackBase extends Item {
 	@Override
 	public void onUpdate(ItemStack itemStack, World world, Entity entity, int indexInInventory, boolean isCurrentItem)
 	{
+		checkForSizeUpdate(itemStack, entity);
+		
 		if (world.isRemote || !isCurrentItem)
 		{
 			return;
@@ -131,7 +134,38 @@ public class ItemBackpackBase extends Item {
 		}
 	}
 
-	private boolean containerMatchesItem(Container openContainer) {
+	public void checkForSizeUpdate(ItemStack itemStack, Entity entity)
+	{
+		//System.out.println("Item is updating");
+		
+				NBTTagCompound nbtTagCompound = itemStack.getTagCompound();
+				//nbtTagCompound.setInteger("increaseSize", 0);
+				if (nbtTagCompound == null)
+				{
+					//System.out.println("Item has no tag compound");
+					nbtTagCompound = new NBTTagCompound();
+					itemStack.setTagCompound(nbtTagCompound);
+				}
+				else if (nbtTagCompound.getInteger("increaseSize") > 0)
+				{
+					System.out.println("increaseSize by " + nbtTagCompound.getInteger("increaseSize"));
+					InventoryBackpackBase tempInv = new InventoryBackpackBase(itemStack, (EntityPlayer) entity, 0);
+					if (tempInv.getSizeInventory() + ConfigurationStore.BACKPACK_BASE_UPGRADE_INCREMENT * 
+							nbtTagCompound.getInteger("increaseSize") <= ConfigurationStore.BACKPACK_BASE_MAX_SIZE)
+					{
+						tempInv.increaseSize(ConfigurationStore.BACKPACK_BASE_UPGRADE_INCREMENT * nbtTagCompound.getInteger("increaseSize"));
+					}
+					else
+					{
+						tempInv.increaseSize(ConfigurationStore.BACKPACK_BASE_MAX_SIZE - tempInv.getSizeInventory());
+					}
+					tempInv.writeToNBT(nbtTagCompound);
+					nbtTagCompound.setInteger("increaseSize", 0);
+					//itemStack.writeToNBT(nbtTagCompound);
+				}
+		}
+	
+	protected boolean containerMatchesItem(Container openContainer) {
 			return openContainer instanceof ContainerBackpackBase;
 	}
 

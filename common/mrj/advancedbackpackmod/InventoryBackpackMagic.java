@@ -2,6 +2,7 @@ package mrj.advancedbackpackmod;
 
 import mrj.advancedbackpackmod.config.ConfigurationStore;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -19,7 +20,7 @@ import net.minecraft.nbt.NBTTagList;
 public class InventoryBackpackMagic extends InventoryBackpackGeneral {
 
 	private int currentColor;
-	private EntityPlayer invOwner;
+	public EntityPlayer invOwner;
 	
 	public InventoryBackpackMagic(ItemStack itemStack, EntityPlayer myPlayer, int color) {
 		super(itemStack, myPlayer, 0);
@@ -28,9 +29,16 @@ public class InventoryBackpackMagic extends InventoryBackpackGeneral {
 		{
 			currentColor = readColorFromNBT(itemStack);
 		}
-		size = readInvSizeFromNBT(invOwner, color);
+		else
+		{
+			currentColor = color;
+		}
+		//size = readInvSizeFromNBT(invOwner, color);
+		size = readInvSizeFromNBT(invOwner, currentColor);
 		
 		myInventory = new ItemStack[size];
+		System.out.println("InventoryBackpackMagic: invOwner = " + invOwner);
+		System.out.println("InventoryBackpackMagic: myInventory.length in constructor " + myInventory.length);
 		readFromNBT(itemStack.getTagCompound());
 	}
 	
@@ -45,7 +53,14 @@ public class InventoryBackpackMagic extends InventoryBackpackGeneral {
 		}
 		else
 		{
-			return itemStack.getTagCompound().getInteger("color");
+			if(itemStack.getTagCompound().hasKey("color"))
+			{
+				return itemStack.getTagCompound().getInteger("color");
+			}
+			else
+			{
+				return -1;
+			}
 		}
 	}
 	
@@ -59,15 +74,19 @@ public class InventoryBackpackMagic extends InventoryBackpackGeneral {
 			NBTTagCompound colorInventoryMagic = (NBTTagCompound) abmInventoryMagic.getTag("inventoryMagic"+color);
 			if (colorInventoryMagic != null)
 			{
+				System.out.println("InventoryBackpackMagic: invSize is " + colorInventoryMagic.getInteger("invSize"));
+				System.out.println("InventoryBackpackMagic: color is " + color);
 				return colorInventoryMagic.getInteger("invSize");
 			}
 			else
 			{
+				//System.out.println("no color inventory tag found, invSize = 27");
 				return ConfigurationStore.BACKPACK_MAGIC_START_SIZE;
 			}
 		}
 		else
 		{
+			//System.out.println("no inventoryMagic tag found, invSize = 27");
 			return ConfigurationStore.BACKPACK_MAGIC_START_SIZE;
 		}
 	}
@@ -93,13 +112,14 @@ public class InventoryBackpackMagic extends InventoryBackpackGeneral {
 				{
 					//System.out.println("content tag found");
 					NBTTagList myList = contentTag.getTagList("indexList");
-					for (int i = 0; i < myList.tagCount() && i < super.myInventory.length; i++)
+					for (int i = 0; i < myList.tagCount() && i < myInventory.length; i++)
 					{
 						//System.out.print("loading index "+ i);
 						NBTTagCompound indexTag = (NBTTagCompound) myList.tagAt(i);
 						int index = indexTag.getInteger("index");
 						try {
 							super.myInventory[index] = ItemStack.loadItemStackFromNBT(indexTag);
+							System.out.println("loaded " + super.myInventory[index] + " into slot " + index);
 							//System.out.println(" successful");
 						} 
 						catch ( NullPointerException npe ) 
@@ -111,43 +131,27 @@ public class InventoryBackpackMagic extends InventoryBackpackGeneral {
 				}
 			}
 		}
-		
-		
-		
-        /**NBTTagCompound contentTag = ((NBTTagCompound) myCompound.getTag("abminventory"));
-        if (contentTag == null)
-        {
-        	return;
-        }
-        
-        if (super.uniqueID == "")
-        {
-        	super.uniqueID = myCompound.getString("uniqueID");
-        }
-        
-        NBTTagList myList = contentTag.getTagList("indexList");
-        for (int i = 0; i < myList.tagCount() && i < super.myInventory.length; i++)
-        {
-        	NBTTagCompound indexTag = (NBTTagCompound) myList.tagAt(i);
-        	int index = indexTag.getInteger("index");
-    		try {
-    			super.myInventory[index] = ItemStack.loadItemStackFromNBT(indexTag);
-    		} catch ( NullPointerException npe ) {
-    			super.myInventory[index] = null;
-    		}
-        }**/
-
+		else
+		{
+			System.out.println("WARNING: NO INVENTORY TAG FOUND FOR THE invOwner");
+			System.out.println("invOwner = " +invOwner);
+		}
     }
 
 	@Override
     public void writeToNBT(NBTTagCompound myCompound)
     {
+		System.out.println("InventoryBackpackMagic: ************************writing to nbt************************");
+		System.out.println("InventoryBackpackMagic: invOwner = " + invOwner);
+		System.out.println("InventoryBackpackMagic: myCompound = " + myCompound);
+		System.out.println("InventoryBackpackMagic: invOwner.getEntityData() = " + invOwner.getEntityData());
 		//get the basic player compound & get the magic inventory root tag
 		NBTTagCompound playerCompound = invOwner.getEntityData();
 		NBTTagCompound abmInventoryMagic = (NBTTagCompound) playerCompound.getTag("abmInventoryMagic");
 		
 		if (abmInventoryMagic == null)
 		{
+			System.out.println("InventoryBackpackMagic: abmInventoryMagic == null");
 			//no tag available -> create it
 			abmInventoryMagic = new NBTTagCompound();
 		}
@@ -160,20 +164,29 @@ public class InventoryBackpackMagic extends InventoryBackpackGeneral {
         {
             if (this.myInventory[i] != null && this.myInventory[i].stackSize > 0)
             {
+            	//System.out.println("writing slot " + i + " to nbt");
                 NBTTagCompound indexTag = new NBTTagCompound();
                 indexList.appendTag(indexTag);
                 indexTag.setInteger("index", i);
                 myInventory[i].writeToNBT(indexTag);
             }
         }
+		System.out.println("InventoryBackpackMagic: inventory length is " + myInventory.length);
 		
+		System.out.println("InventoryBackpackMagic: invSize = " + size);
+		System.out.println("InventoryBackpackMagic: readInvSizeFromNBT = " + readInvSizeFromNBT(invOwner, currentColor));
+		System.out.println("InventoryBackpackMagic: currentColor = " + currentColor);
 		contentTag.setTag("indexList", indexList);
 		colorInventoryMagic.setTag("abminventory", contentTag);
 		colorInventoryMagic.setInteger("invSize", size);
 		abmInventoryMagic.setTag("inventoryMagic" + currentColor, colorInventoryMagic);
 		playerCompound.setTag("abmInventoryMagic", abmInventoryMagic);
 		
+		myCompound.setInteger("invSize", size);
 		
+		System.out.println("InventoryBackpackMagic: invOwner.getEntityData() = " + invOwner.getEntityData());
+		//System.out.println(((NBTTagCompound)((NBTTagCompound)invOwner.getEntityData().getTag("abmInventoryMagic")).getTag("inventoryMagic"+currentColor)).getInteger("invSize"));
+		System.out.println("InventoryBackpackMagic: ************************writing to nbt done************************");
     }
 
 }

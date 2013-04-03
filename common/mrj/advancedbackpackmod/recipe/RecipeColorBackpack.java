@@ -102,7 +102,14 @@ public class RecipeColorBackpack implements IRecipe {
 		{
 			//System.out.println("setting color to " + colorNames[color]);
 			tmpStack = itemStack.copy();
-			((ItemBackpackBase)tmpStack.getItem()).setColor(tmpStack, color);
+			if (itemStack.itemID == ConfigurationStore.BACKPACK_BASE_ID)
+			{
+				((ItemBackpackBase)tmpStack.getItem()).setColor(tmpStack, color);
+			}
+			else
+			{
+				((ItemBackpackMagic)tmpStack.getItem()).setColor(tmpStack, color);
+			}
 		}
 		else
 		{

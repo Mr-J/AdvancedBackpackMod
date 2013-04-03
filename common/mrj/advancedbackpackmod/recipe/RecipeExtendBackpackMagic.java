@@ -1,7 +1,9 @@
 package mrj.advancedbackpackmod.recipe;
 
 import mrj.advancedbackpackmod.InventoryBackpackBase;
+import mrj.advancedbackpackmod.InventoryBackpackMagic;
 import mrj.advancedbackpackmod.ItemBackpackBase;
+import mrj.advancedbackpackmod.ItemBackpackMagic;
 import mrj.advancedbackpackmod.config.ConfigurationStore;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -20,10 +22,10 @@ import net.minecraft.world.World;
  * 
  */
 
-public class RecipeExtendBackpackBase implements IRecipe {
+public class RecipeExtendBackpackMagic implements IRecipe {
 	
 	int[] recipeComponents = {Item.silk.itemID, Item.enderPearl.itemID, Item.silk.itemID,
-									Item.emerald.itemID, ConfigurationStore.BACKPACK_BASE_ID, Item.emerald.itemID,
+									Item.emerald.itemID, ConfigurationStore.BACKPACK_MAGIC_ID, Item.emerald.itemID,
 									Item.silk.itemID, Item.blazeRod.itemID, Item.silk.itemID};
 	@Override
 	public boolean matches(InventoryCrafting inventoryCrafting, World world) {
@@ -51,6 +53,10 @@ public class RecipeExtendBackpackBase implements IRecipe {
 							System.out.println("required ID is " + recipeComponents[(i * 3) + j]);**/
 							return false;
 						}
+						else
+						{
+							//System.out.println("component in column/row " + i + "/" + j + " matches recipe");
+						}
 					}
 					else
 					{
@@ -65,23 +71,18 @@ public class RecipeExtendBackpackBase implements IRecipe {
 			}
 		}
 		
-		InventoryBackpackBase tmpInv = new InventoryBackpackBase(inventoryCrafting.getStackInRowAndColumn(1,1), null, 0);
-		if (tmpInv.getSizeInventory() >= ConfigurationStore.BACKPACK_BASE_MAX_SIZE)
+		//System.out.println("made it to here");
+		
+		//InventoryBackpackMagic tmpInv = new InventoryBackpackMagic(inventoryCrafting.getStackInRowAndColumn(1,1), null, 0);
+		NBTTagCompound nbtTagCompound = inventoryCrafting.getStackInRowAndColumn(1,1).getTagCompound();
+		if (nbtTagCompound != null)
 		{
-			return false;
-		}
-		else if(inventoryCrafting.getStackInRowAndColumn(1,1).getTagCompound() != null)
-		{
-			if(inventoryCrafting.getStackInRowAndColumn(1,1).getTagCompound().getInteger("increaseSize") > 0)
+			if (nbtTagCompound.getInteger("invSize") >= ConfigurationStore.BACKPACK_MAGIC_MAX_SIZE)
 			{
-				if(tmpInv.getSizeInventory() + 
-						inventoryCrafting.getStackInRowAndColumn(1,1).getTagCompound().getInteger("increaseSize") * 
-						ConfigurationStore.BACKPACK_BASE_UPGRADE_INCREMENT >= ConfigurationStore.BACKPACK_BASE_MAX_SIZE)
-				{
-					return false;
-				}
+				return false;
 			}
 		}
+		
 		
 		//upgradeBag = inventoryCrafting.getStackInRowAndColumn(1, 1);
 		/**if (!(upgradeBag.getItem() instanceof ItemBackpackBase))
@@ -97,52 +98,11 @@ public class RecipeExtendBackpackBase implements IRecipe {
 
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inventoryCrafting) {
-		/**ItemStack itemStack = null;
-		//ItemBackpackBase upgradeBP = null;
-		
-		itemStack = new ItemStack(AdvancedBackpackMod.baseBackpack);
-		
-		//upgradeBP = (ItemBackpackBase) itemStack.getItem();
-		//upgradeBP.increaseSize(4);
-		if (inventoryCrafting.getStackInRowAndColumn(1,1).getItem() instanceof ItemBackpackBase)
-		{
-			//System.out.println("item in slot 1/1 is backpack, copy its contents to new backpack");
-			InventoryBackpackBase tempInv = new InventoryBackpackBase(inventoryCrafting.getStackInRowAndColumn(1,1), null, 0);
-			InventoryBackpackBase upgradeInv;
-			if (tempInv.getSizeInventory() + ConfigurationStore.BACKPACK_BASE_UPGRADE_INCREMENT <= ConfigurationStore.BACKPACK_BASE_MAX_SIZE)
-			{
-				upgradeInv = new InventoryBackpackBase(itemStack, null, tempInv.getSizeInventory() + ConfigurationStore.BACKPACK_BASE_UPGRADE_INCREMENT);
-			}
-			else
-			{
-				upgradeInv = new InventoryBackpackBase(itemStack, null, ConfigurationStore.BACKPACK_BASE_MAX_SIZE);
-			}
-			for (int i = 0; i < tempInv.getSizeInventory(); i++)
-			{
-				//System.out.println("copying slot " + i + " now");
-				if (tempInv.getStackInSlot(i) != null)
-				{
-					//System.out.println("content of slot is " + tempInv.getStackInSlot(i).toString());
-				}
-				upgradeInv.setInventorySlotContents(i, tempInv.getStackInSlot(i));
-				if (upgradeInv.getStackInSlot(i) != null)
-				{
-					//System.out.println("content of new slot is " + upgradeInv.getStackInSlot(i).toString());
-				}
-				tempInv.setInventorySlotContents(i, null);
-				upgradeInv.writeToNBT(itemStack.stackTagCompound);
-			}
-			((ItemBackpackBase)itemStack.getItem()).setColor(itemStack, ((ItemBackpackBase)inventoryCrafting.getStackInRowAndColumn(1,1).getItem()).getColor(inventoryCrafting.getStackInRowAndColumn(1,1)));
-			return itemStack;
-		}
-		else
-		{
-			return null;
-		}
-		**/
+		System.out.println("getCraftingResult was called");
 		ItemStack itemStack = null;
-		if (inventoryCrafting.getStackInRowAndColumn(1,1).getItem() instanceof ItemBackpackBase)
+		if (inventoryCrafting.getStackInRowAndColumn(1,1).getItem() instanceof ItemBackpackMagic)
 		{
+			System.out.println("item is instance of itembackpackmagic");
 			itemStack = inventoryCrafting.getStackInRowAndColumn(1,1).copy();
 			NBTTagCompound nbtTagCompound = itemStack.getTagCompound();
 			if (nbtTagCompound == null)
@@ -158,7 +118,15 @@ public class RecipeExtendBackpackBase implements IRecipe {
 			{
 				nbtTagCompound.setInteger("increaseSize", 1);
 			}
-			
+			if (nbtTagCompound.getInteger("invSize") > 0)
+			{
+				nbtTagCompound.setInteger("invSize", nbtTagCompound.getInteger("invSize") + 
+						ConfigurationStore.BACKPACK_MAGIC_UPGRADE_INCREMENT);
+			}
+			else
+			{
+				nbtTagCompound.setInteger("invSize", ConfigurationStore.BACKPACK_MAGIC_START_SIZE + ConfigurationStore.BACKPACK_MAGIC_UPGRADE_INCREMENT);
+			}
 			return itemStack;
 		}
 		else

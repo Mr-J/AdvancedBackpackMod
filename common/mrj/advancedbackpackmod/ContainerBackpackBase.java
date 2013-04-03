@@ -26,8 +26,10 @@ public class ContainerBackpackBase extends Container {
 	
 	public ContainerBackpackBase(InventoryBackpackGeneral myBPInv, InventoryPlayer myPlayerInv)
 	{
+		System.out.println("ContainerBackpackBase: creating container");
 		containerInv = myBPInv;
 		invSize = containerInv.getSizeInventory();
+		System.out.println("ContainerBackpackBase: invSize = " + invSize);
 		if (invSize < 55)
 		{
 			if (invSize < 9)
@@ -59,6 +61,9 @@ public class ContainerBackpackBase extends Container {
 			}
 		}
 		rest = containerInv.getSizeInventory() - (invCol * invRow);
+		
+		System.out.println("ContainerBackpackBase: col/row = " + invCol + "/" + invRow);
+		System.out.println("ContainerBackpackBase: rest = " + rest);
 		
 		//default starting position of the first container inventory slot
 		int positionBackpackX = 8;
@@ -127,6 +132,7 @@ public class ContainerBackpackBase extends Container {
 		{
 			itemStack.setTagCompound(new NBTTagCompound());
 		}
+		System.out.println("saveToNBT in container called");
 		containerInv.writeToNBT(itemStack.getTagCompound());
 	}
 	

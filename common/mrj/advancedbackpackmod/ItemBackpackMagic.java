@@ -2,9 +2,13 @@ package mrj.advancedbackpackmod;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import mrj.advancedbackpackmod.config.ConfigurationStore;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
@@ -22,6 +26,7 @@ public class ItemBackpackMagic extends ItemBackpackBase {
 
 	public ItemBackpackMagic(int id) {
 		super(id);
+		
 	}
 
 	public ItemStack onItemRightClick(ItemStack myStack, World myWorld, EntityPlayer myPlayer) 
@@ -51,10 +56,79 @@ public class ItemBackpackMagic extends ItemBackpackBase {
 		icons[1] = iconRegister.registerIcon("advancedbackpackmod:backpackmagic32outline");
     }
 	
-	/**@Override
-	public Icon getIcon(ItemStack itemStack, int renderPass)
+	@Override
+	public void onUpdate(ItemStack itemStack, World world, Entity entity, int indexInInventory, boolean isCurrentItem)
 	{
-		return this.iconIndex;
+		if (!world.isRemote)
+		{
+			checkForSizeUpdate(itemStack, entity);
+			//syncSize(itemStack, entity);
+		}
+		
+		if (world.isRemote || !isCurrentItem)
+		{
+			return;
+		}
+		if(((EntityPlayer) entity).openContainer == null || ((EntityPlayer) entity).openContainer instanceof ContainerPlayer)
+		{
+			return;
+		}
+		if (containerMatchesItem(((EntityPlayer) entity).openContainer))
+		{
+			ContainerBackpackBase myContainer = (ContainerBackpackBase) ((EntityPlayer) entity).openContainer;
+			myContainer.saveToNBT(itemStack);
+		}
+	}
+	
+	@Override
+	public void checkForSizeUpdate(ItemStack itemStack, Entity entity)
+	{
+		NBTTagCompound nbtTagCompound = itemStack.getTagCompound();
+		if (nbtTagCompound == null)
+		{
+			nbtTagCompound = new NBTTagCompound();
+			itemStack.setTagCompound(nbtTagCompound);
+		}
+		else if (nbtTagCompound.getInteger("increaseSize") > 0)
+		{
+			//System.out.println("increaseSize by " + nbtTagCompound.getInteger("increaseSize"));
+			InventoryBackpackMagic tempInv = new InventoryBackpackMagic(itemStack, (EntityPlayer) entity, ((ItemBackpackMagic)itemStack.getItem()).getColor(itemStack));
+			System.out.println("checkForSizeUpdate: invOwer = " + tempInv.invOwner);
+			if (tempInv.getSizeInventory() + ConfigurationStore.BACKPACK_MAGIC_UPGRADE_INCREMENT * 
+					nbtTagCompound.getInteger("increaseSize") <= ConfigurationStore.BACKPACK_MAGIC_MAX_SIZE)
+			{
+				//System.out.println("if");
+				//System.out.println("increasing size by " + ConfigurationStore.BACKPACK_MAGIC_UPGRADE_INCREMENT * nbtTagCompound.getInteger("increaseSize"));
+				//System.out.println("inv size is " + tempInv.getSizeInventory());
+				//System.out.println("color is " + ((ItemBackpackMagic)itemStack.getItem()).getColor(itemStack));
+				
+				tempInv.increaseSize(ConfigurationStore.BACKPACK_MAGIC_UPGRADE_INCREMENT * nbtTagCompound.getInteger("increaseSize"));
+				
+				//System.out.println("inv size is now " + tempInv.getSizeInventory());
+				//System.out.println("color is now " + ((ItemBackpackMagic)itemStack.getItem()).getColor(itemStack));
+			}
+			else
+			{
+				//System.out.println("else");
+				tempInv.increaseSize(ConfigurationStore.BACKPACK_MAGIC_MAX_SIZE - tempInv.getSizeInventory());
+			}
+			//System.out.println("writing inv to nbt");
+			tempInv.writeToNBT(nbtTagCompound);
+			nbtTagCompound.setInteger("increaseSize", 0);
+		}
+	}
+	
+	/**public void syncSize(ItemStack itemStack, Entity entity)
+	{
+		NBTTagCompound nbtTagCompound = itemStack.getTagCompound();
+		if (nbtTagCompound.getInteger("invSize") > 0)
+		{
+			InventoryBackpackMagic tempInv = new InventoryBackpackMagic(itemStack, (EntityPlayer) entity, ((ItemBackpackMagic)itemStack.getItem()).getColor(itemStack));
+			if (nbtTagCompound.getInteger("invSize") != tempInv.getSizeInventory())
+			{
+				nbtTagCompound.setInteger("invSize", tempInv.getSizeInventory());
+			}
+		}
 	}**/
 	
     @SideOnly(Side.CLIENT)

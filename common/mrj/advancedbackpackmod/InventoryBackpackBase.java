@@ -54,23 +54,23 @@ public class InventoryBackpackBase extends InventoryBackpackGeneral {
 		uniqueID = "";
 		if (!itemStack.hasTagCompound())
 		{
-			if (invSize == 0)
+			/**if (invSize == 0)
 			{
 				size = ConfigurationStore.BACKPACK_BASE_START_SIZE;
 			}
 			else
 			{
 				size = invSize;
-			}
+			}**/
 			itemStack.stackTagCompound = new NBTTagCompound();	
 			//Generate a random ID for every backpack
 			uniqueID = UUID.randomUUID().toString();
 		}
-		else
-		{
+		//else
+		//{
 			//read inventory size from nbt
 			readInvSizeFromNBT(itemStack.getTagCompound());
-		}
+		//}
 		
 		myInventory = new ItemStack[size];
 		readFromNBT(itemStack.getTagCompound());
@@ -81,16 +81,28 @@ public class InventoryBackpackBase extends InventoryBackpackGeneral {
 		return this.uniqueID;
 	}
 	
+	@Override
 	public void readInvSizeFromNBT(NBTTagCompound myCompound)
 	{
-        NBTTagCompound contentTag = ((NBTTagCompound) myCompound.getTag("abminventory"));
-        if (contentTag == null)
-        {
-        	return;
-        }
-        size =  myCompound.getInteger("invSize");
+		if (myCompound != null)
+		{
+			 NBTTagCompound contentTag = ((NBTTagCompound) myCompound.getTag("abminventory"));
+			 if (contentTag == null)
+			 {
+				 size = ConfigurationStore.BACKPACK_BASE_START_SIZE;
+			 }
+			 else
+			 {
+				 size =  myCompound.getInteger("invSize");
+			 }
+		}
+		else
+		{
+			System.out.println("FATAL ERROR");
+		}
 	}
 	
+	@Override
 	public void readFromNBT(NBTTagCompound myCompound)
     {
         NBTTagCompound contentTag = ((NBTTagCompound) myCompound.getTag("abminventory"));
@@ -99,9 +111,19 @@ public class InventoryBackpackBase extends InventoryBackpackGeneral {
         	return;
         }
         
-        if (uniqueID == "")
+        if ("".equals(uniqueID))
         {
-        	uniqueID = myCompound.getString("uniqueID");
+           	uniqueID = myCompound.getString("uniqueID");
+        	if ("".equals(uniqueID))
+        	{
+        		System.out.println("still no uniqueID given");
+        		uniqueID = UUID.randomUUID().toString();
+        	}
+        }
+        else
+        {
+        	System.out.println("uniqueID != \"\"");
+        	System.out.println("uniqueID = " + uniqueID);
         }
         
         NBTTagList myList = contentTag.getTagList("indexList");
@@ -118,6 +140,7 @@ public class InventoryBackpackBase extends InventoryBackpackGeneral {
 
     }
 
+	@Override
     public void writeToNBT(NBTTagCompound myCompound)
     {
         NBTTagList myList = new NBTTagList();
@@ -137,6 +160,8 @@ public class InventoryBackpackBase extends InventoryBackpackGeneral {
         myCompound.setTag("abminventory", contentTag);
         myCompound.setString("uniqueID", uniqueID);
         myCompound.setInteger("invSize", size);
+        
+        System.out.println("uniqueID set to " + uniqueID);
     }
     
 }

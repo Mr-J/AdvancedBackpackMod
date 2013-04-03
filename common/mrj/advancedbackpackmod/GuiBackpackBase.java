@@ -25,6 +25,7 @@ public class GuiBackpackBase extends GuiContainer {
 	public GuiBackpackBase(InventoryBackpackGeneral myBPInv, InventoryPlayer myPlayerInv)
 	{
 		super(new ContainerBackpackBase(myBPInv, myPlayerInv));
+		System.out.println("GuiBackpackBase: creating container in Gui");
 		myContainer = (ContainerBackpackBase) super.inventorySlots;
 		if (myContainer.invCol >= 9)
 		{
