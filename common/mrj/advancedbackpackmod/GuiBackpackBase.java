@@ -35,7 +35,6 @@ public class GuiBackpackBase extends GuiContainer {
 		{
 			this.xSize = 176;//14 + 9 * 18;
 		}
-		//error maybe here?
 		if (myContainer.rest > 0)
 		{
 			this.ySize = 114 + ((myContainer.invRow + 1) * 18);
@@ -50,18 +49,12 @@ public class GuiBackpackBase extends GuiContainer {
 	protected void drawGuiContainerForegroundLayer(int var1, int var2)
 	{
 		fontRenderer.drawString("Backpack ("+ myContainer.invSize+" Slots)", 8, 6, 4210752);
-		/**if (myContainer.rest > 0)
-		{
-			fontRenderer.drawString("Inventory", 8, this.ySize - 78 + 2, 4210752);
-		}
-		else
-		{**/
-			fontRenderer.drawString("Inventory", 8, this.ySize - 96 + 2, 4210752);
-		//}
+		fontRenderer.drawString("Inventory", 8, this.ySize - 96 + 2, 4210752);
 	}	
 	
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
+	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) 
+	{
 		GL11.glColor4f(1.0F,  1.0F,  1.0F,  1.0F);
 		int columns = Math.max(myContainer.invCol, 9);
 		int rows = myContainer.invRow;
@@ -78,8 +71,6 @@ public class GuiBackpackBase extends GuiContainer {
 		{
 			drawContainerBottom(startX, startY + 35 + (rows + 4) * 18, columns);
 		}
-		
-		
 	}
 	
 	private void drawContainerMiddle(int x, int y, int columns, int rows)
@@ -209,7 +200,8 @@ public class GuiBackpackBase extends GuiContainer {
 		drawTexturedModalRect(currentX, y, 0, 0, 18, 17);
 	}
 	
-	private void drawContainerBottom(int x, int y, int columns) {
+	private void drawContainerBottom(int x, int y, int columns) 
+	{
 		int currentX = x;
 		//mc.renderEngine.func_98187_b("/mods/advancedbackpackmod/textures/gui/guiBottomLeft.png");
 		mc.renderEngine.bindTexture("/mods/advancedbackpackmod/textures/gui/guiBottomLeft.png");

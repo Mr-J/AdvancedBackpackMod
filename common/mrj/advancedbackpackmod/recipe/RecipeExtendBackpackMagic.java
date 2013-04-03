@@ -30,8 +30,6 @@ public class RecipeExtendBackpackMagic implements IRecipe {
 	@Override
 	public boolean matches(InventoryCrafting inventoryCrafting, World world) {
 
-		//ItemStack upgradeBag = null;
-		
 		if (inventoryCrafting.getSizeInventory() < 9)
 		{
 			//inventory smaller than 3*3 -> crafting not possible
@@ -48,14 +46,7 @@ public class RecipeExtendBackpackMagic implements IRecipe {
 					{
 						if (inventoryCrafting.getStackInRowAndColumn(j, i).itemID != recipeComponents[(i * 3) + j])
 						{
-							/**System.out.println("slot " + i + "/" + j + " not matching");
-							System.out.println("slot is ID" + inventoryCrafting.getStackInRowAndColumn(i, j).itemID );
-							System.out.println("required ID is " + recipeComponents[(i * 3) + j]);**/
 							return false;
-						}
-						else
-						{
-							//System.out.println("component in column/row " + i + "/" + j + " matches recipe");
 						}
 					}
 					else
@@ -70,10 +61,6 @@ public class RecipeExtendBackpackMagic implements IRecipe {
 				}
 			}
 		}
-		
-		//System.out.println("made it to here");
-		
-		//InventoryBackpackMagic tmpInv = new InventoryBackpackMagic(inventoryCrafting.getStackInRowAndColumn(1,1), null, 0);
 		NBTTagCompound nbtTagCompound = inventoryCrafting.getStackInRowAndColumn(1,1).getTagCompound();
 		if (nbtTagCompound != null)
 		{
@@ -81,28 +68,15 @@ public class RecipeExtendBackpackMagic implements IRecipe {
 			{
 				return false;
 			}
-		}
-		
-		
-		//upgradeBag = inventoryCrafting.getStackInRowAndColumn(1, 1);
-		/**if (!(upgradeBag.getItem() instanceof ItemBackpackBase))
-		{
-			//no backpack a position 1,1 (second column/row in game)
-			return false;
-		}**/
-		
-		
-		
+		}		
 		return true;
 	}
 
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inventoryCrafting) {
-		System.out.println("getCraftingResult was called");
 		ItemStack itemStack = null;
 		if (inventoryCrafting.getStackInRowAndColumn(1,1).getItem() instanceof ItemBackpackMagic)
 		{
-			System.out.println("item is instance of itembackpackmagic");
 			itemStack = inventoryCrafting.getStackInRowAndColumn(1,1).copy();
 			NBTTagCompound nbtTagCompound = itemStack.getTagCompound();
 			if (nbtTagCompound == null)

@@ -33,7 +33,6 @@ public class CommonProxy implements IGuiHandler {
 		else if (ID == 1)
 		{
 			InventoryBackpackMagic myBPInv = new InventoryBackpackMagic(player.inventory.getCurrentItem(), player, -1);
-			System.out.println("Server: "+ player);
 			return new ContainerBackpackBase(myBPInv, player.inventory);
 		}
 		else
@@ -55,7 +54,15 @@ public class CommonProxy implements IGuiHandler {
 		{
 			//CLIENT SIDED CONSTRUCTION OF INVENTORYBACKPACKMAGIC IS A PROBLEM
 			InventoryBackpackMagic myBPInv = new InventoryBackpackMagic(player.inventory.getCurrentItem(), player, -1);
-			System.out.println("Client: "+ player);
+
+			//***********************************************************************
+			//THIS IS A QUITE WHACKY FIX FOR THE PROBLEM AND SHOULD BE REPLACED SOON
+			if (player.inventory.getCurrentItem().getTagCompound().getInteger("invSize") - myBPInv.getSizeInventory() > 0)
+			{
+				myBPInv.increaseSize(player.inventory.getCurrentItem().getTagCompound().getInteger("invSize") - myBPInv.getSizeInventory());
+			}
+			//***********************************************************************
+			
 			return new GuiBackpackBase(myBPInv, player.inventory);
 		}
 		else

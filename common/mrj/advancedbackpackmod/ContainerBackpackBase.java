@@ -26,10 +26,8 @@ public class ContainerBackpackBase extends Container {
 	
 	public ContainerBackpackBase(InventoryBackpackGeneral myBPInv, InventoryPlayer myPlayerInv)
 	{
-		System.out.println("ContainerBackpackBase: creating container");
 		containerInv = myBPInv;
 		invSize = containerInv.getSizeInventory();
-		System.out.println("ContainerBackpackBase: invSize = " + invSize);
 		if (invSize < 55)
 		{
 			if (invSize < 9)
@@ -61,9 +59,6 @@ public class ContainerBackpackBase extends Container {
 			}
 		}
 		rest = containerInv.getSizeInventory() - (invCol * invRow);
-		
-		System.out.println("ContainerBackpackBase: col/row = " + invCol + "/" + invRow);
-		System.out.println("ContainerBackpackBase: rest = " + rest);
 		
 		//default starting position of the first container inventory slot
 		int positionBackpackX = 8;
@@ -132,7 +127,6 @@ public class ContainerBackpackBase extends Container {
 		{
 			itemStack.setTagCompound(new NBTTagCompound());
 		}
-		System.out.println("saveToNBT in container called");
 		containerInv.writeToNBT(itemStack.getTagCompound());
 	}
 	
@@ -153,7 +147,6 @@ public class ContainerBackpackBase extends Container {
         		InventoryBackpackBase chkInv = new InventoryBackpackBase(tempStack2, myPlayer, 0);
         		if (chkInv.getName() == containerInv.getName())
         		{
-        			//System.out.println("here1");
         			return tempStack;
         		}
         	}
@@ -173,25 +166,19 @@ public class ContainerBackpackBase extends Container {
         	//else if (!this.mergeItemStack(tempStack2, 0, this.x * this.y, false))
         	else if (!this.mergeItemStack(tempStack2, 0, invSize, false))
         	{
-        		//System.out.println("here3");
         		return null;
         	}
         	
         	if (tempStack2.stackSize == 0)
         	{
-        		//System.out.println("here4");
         		invSlot.putStack((ItemStack)null);
         	}
         	else 
         	{
-        		//System.out.println("here5");
         		invSlot.onSlotChanged();
         	}
         }
-        else
-        {
-        	//System.out.println("here6");
-        }
+
         return tempStack;
     }
 	
@@ -215,12 +202,6 @@ public class ContainerBackpackBase extends Container {
 			//can not pick the current opened container up
 			return tmpSlot.getStack();
 		}
-		/**System.out.println("slotID = " + slotID);
-		System.out.println("buttonPressed = " + buttonPressed);
-		System.out.println("flag = " + flag);
-		System.out.println("player = " + player);
-		System.out.println("*********************************");**/
-		
 		return super.slotClick(slotID, buttonPressed, flag, player);
     }
 }

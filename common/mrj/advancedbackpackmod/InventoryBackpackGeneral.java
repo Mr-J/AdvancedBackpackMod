@@ -22,11 +22,10 @@ import net.minecraft.nbt.NBTTagCompound;
 public class InventoryBackpackGeneral implements IInventory {
 	protected ItemStack[] myInventory;
 	protected int size;
-	//protected ItemStack item;
 	
 	public InventoryBackpackGeneral(ItemStack itemStack, EntityPlayer myPlayer, int invSize)
 	{
-		//item = itemStack;
+		
 	}
 	
 	@Override
@@ -104,9 +103,7 @@ public class InventoryBackpackGeneral implements IInventory {
 		ItemStack[] newInventory = new ItemStack[size + i];
 		System.arraycopy(myInventory, 0, newInventory, 0, size);
 		myInventory = newInventory;
-		//System.out.println("size was " + size);
 		size = size + i;
-		//System.out.println("size is now " + size);
 	}
 	
 	public String getName() {

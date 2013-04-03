@@ -62,7 +62,6 @@ public class ItemBackpackMagic extends ItemBackpackBase {
 		if (!world.isRemote)
 		{
 			checkForSizeUpdate(itemStack, entity);
-			//syncSize(itemStack, entity);
 		}
 		
 		if (world.isRemote || !isCurrentItem)
@@ -91,45 +90,20 @@ public class ItemBackpackMagic extends ItemBackpackBase {
 		}
 		else if (nbtTagCompound.getInteger("increaseSize") > 0)
 		{
-			//System.out.println("increaseSize by " + nbtTagCompound.getInteger("increaseSize"));
 			InventoryBackpackMagic tempInv = new InventoryBackpackMagic(itemStack, (EntityPlayer) entity, ((ItemBackpackMagic)itemStack.getItem()).getColor(itemStack));
-			System.out.println("checkForSizeUpdate: invOwer = " + tempInv.invOwner);
 			if (tempInv.getSizeInventory() + ConfigurationStore.BACKPACK_MAGIC_UPGRADE_INCREMENT * 
 					nbtTagCompound.getInteger("increaseSize") <= ConfigurationStore.BACKPACK_MAGIC_MAX_SIZE)
-			{
-				//System.out.println("if");
-				//System.out.println("increasing size by " + ConfigurationStore.BACKPACK_MAGIC_UPGRADE_INCREMENT * nbtTagCompound.getInteger("increaseSize"));
-				//System.out.println("inv size is " + tempInv.getSizeInventory());
-				//System.out.println("color is " + ((ItemBackpackMagic)itemStack.getItem()).getColor(itemStack));
-				
+			{				
 				tempInv.increaseSize(ConfigurationStore.BACKPACK_MAGIC_UPGRADE_INCREMENT * nbtTagCompound.getInteger("increaseSize"));
-				
-				//System.out.println("inv size is now " + tempInv.getSizeInventory());
-				//System.out.println("color is now " + ((ItemBackpackMagic)itemStack.getItem()).getColor(itemStack));
 			}
 			else
 			{
-				//System.out.println("else");
 				tempInv.increaseSize(ConfigurationStore.BACKPACK_MAGIC_MAX_SIZE - tempInv.getSizeInventory());
 			}
-			//System.out.println("writing inv to nbt");
 			tempInv.writeToNBT(nbtTagCompound);
 			nbtTagCompound.setInteger("increaseSize", 0);
 		}
 	}
-	
-	/**public void syncSize(ItemStack itemStack, Entity entity)
-	{
-		NBTTagCompound nbtTagCompound = itemStack.getTagCompound();
-		if (nbtTagCompound.getInteger("invSize") > 0)
-		{
-			InventoryBackpackMagic tempInv = new InventoryBackpackMagic(itemStack, (EntityPlayer) entity, ((ItemBackpackMagic)itemStack.getItem()).getColor(itemStack));
-			if (nbtTagCompound.getInteger("invSize") != tempInv.getSizeInventory())
-			{
-				nbtTagCompound.setInteger("invSize", tempInv.getSizeInventory());
-			}
-		}
-	}**/
 	
     @SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack par1ItemStack)
