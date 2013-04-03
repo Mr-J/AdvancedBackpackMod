@@ -100,7 +100,7 @@ public class RecipeColorBackpack implements IRecipe {
 			
 		}
 		ItemStack tmpStack = null;
-		if (color >= 0 && itemStack != null)
+		if (itemStack != null)
 		{
 			tmpStack = itemStack.copy();
 			if (itemStack.itemID == ConfigurationStore.BACKPACK_BASE_ID)

@@ -35,8 +35,6 @@ public class InventoryBackpackMagic extends InventoryBackpackGeneral {
 		size = readInvSizeFromNBT(invOwner, currentColor);
 		
 		myInventory = new ItemStack[size];
-		System.out.println("InventoryBackpackMagic: invOwner = " + invOwner);
-		System.out.println("InventoryBackpackMagic: myInventory.length in constructor " + myInventory.length);
 		readFromNBT(itemStack.getTagCompound());
 	}
 	
@@ -110,7 +108,6 @@ public class InventoryBackpackMagic extends InventoryBackpackGeneral {
 						try 
 						{
 							super.myInventory[index] = ItemStack.loadItemStackFromNBT(indexTag);
-							System.out.println("loaded " + super.myInventory[index] + " into slot " + index);
 						} 
 						catch ( NullPointerException npe ) 
 						{
