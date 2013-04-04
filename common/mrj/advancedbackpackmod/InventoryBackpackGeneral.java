@@ -25,7 +25,7 @@ public class InventoryBackpackGeneral implements IInventory {
 	
 	public InventoryBackpackGeneral(ItemStack itemStack, EntityPlayer myPlayer, int invSize)
 	{
-
+		
 	}
 	
 	@Override

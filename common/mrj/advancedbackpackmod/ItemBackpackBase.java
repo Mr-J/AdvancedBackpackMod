@@ -4,6 +4,7 @@ package mrj.advancedbackpackmod;
 //import cpw.mods.fml.relauncher.SideOnly;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import mrj.advancedbackpackmod.config.ConfigurationStore;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -32,8 +33,6 @@ import net.minecraft.world.World;
 
 public class ItemBackpackBase extends Item {
 	
-	//boolean currentlyUsed;
-	//public int currentColor;
 	public static final String[] colorNames = new String[] {"black", "red", "green", 
 																"brown", "blue", "purple", 
 																"cyan", "silver", "gray", 
@@ -52,8 +51,6 @@ public class ItemBackpackBase extends Item {
 		
 		setMaxStackSize(1);
 		setCreativeTab(CreativeTabs.tabMisc);
-		//currentColor = -1;
-		//currentlyUsed = false;
 	}
 	
 	//OBSOLETE
@@ -72,7 +69,13 @@ public class ItemBackpackBase extends Item {
 			}
 			else
 			{
-				System.out.println("player is sneaking, use shared inventory mode for backpackbase");
+				/**This is currently in development
+				 * 
+				 * will create a shared inventory for 
+				 * backpack and a clicked container
+				 * 
+				**/
+				/**System.out.println("player is sneaking, use shared inventory mode for backpackbase");
 				MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(myWorld, myPlayer, true);
 				if (movingobjectposition != null)
 				{
@@ -81,13 +84,6 @@ public class ItemBackpackBase extends Item {
 		                int i = movingobjectposition.blockX;
 		                int j = movingobjectposition.blockY;
 		                int k = movingobjectposition.blockZ;
-		                
-		                //int id = myWorld.getBlockId(i, j, k);
-		                //System.out.println("clicked block is " + id);
-		                //System.out.println(movingobjectposition.typeOfHit);
-		                //System.out.println(movingobjectposition.entityHit);
-		                
-		                //myWorld.getBlockTileEntity(i,  j, k).getBlockType();
 		                
 		               if (myWorld.getBlockTileEntity(i, j, k) != null)
 		               {
@@ -107,7 +103,7 @@ public class ItemBackpackBase extends Item {
 		            	   }
 		               }             
 		            }
-				}
+				}**/
 			}
 		}		
 		return myStack;
@@ -116,6 +112,8 @@ public class ItemBackpackBase extends Item {
 	@Override
 	public void onUpdate(ItemStack itemStack, World world, Entity entity, int indexInInventory, boolean isCurrentItem)
 	{
+		checkForSizeUpdate(itemStack, entity);
+		
 		if (world.isRemote || !isCurrentItem)
 		{
 			return;
@@ -127,11 +125,41 @@ public class ItemBackpackBase extends Item {
 		if (containerMatchesItem(((EntityPlayer) entity).openContainer))
 		{
 			ContainerBackpackBase myContainer = (ContainerBackpackBase) ((EntityPlayer) entity).openContainer;
-			myContainer.saveToNBT(itemStack);
+			if (myContainer.updateNotification)
+			{
+				System.out.println("saving inventory");
+				myContainer.saveToNBT(itemStack);
+				myContainer.updateNotification = false;
+			}
 		}
 	}
 
-	private boolean containerMatchesItem(Container openContainer) {
+	public void checkForSizeUpdate(ItemStack itemStack, Entity entity)
+	{
+		NBTTagCompound nbtTagCompound = itemStack.getTagCompound();
+		if (nbtTagCompound == null)
+		{
+			nbtTagCompound = new NBTTagCompound();
+			itemStack.setTagCompound(nbtTagCompound);
+		}
+		else if (nbtTagCompound.getInteger("increaseSize") > 0)
+		{
+			InventoryBackpackBase tempInv = new InventoryBackpackBase(itemStack, (EntityPlayer) entity, 0);
+			if (tempInv.getSizeInventory() + ConfigurationStore.BACKPACK_BASE_UPGRADE_INCREMENT * 
+					nbtTagCompound.getInteger("increaseSize") <= ConfigurationStore.BACKPACK_BASE_MAX_SIZE)
+			{
+				tempInv.increaseSize(ConfigurationStore.BACKPACK_BASE_UPGRADE_INCREMENT * nbtTagCompound.getInteger("increaseSize"));
+			}
+			else
+			{
+				tempInv.increaseSize(ConfigurationStore.BACKPACK_BASE_MAX_SIZE - tempInv.getSizeInventory());
+			}
+			tempInv.writeToNBT(nbtTagCompound);
+			nbtTagCompound.setInteger("increaseSize", 0);
+		}
+	}
+	
+	protected boolean containerMatchesItem(Container openContainer) {
 			return openContainer instanceof ContainerBackpackBase;
 	}
 

@@ -23,9 +23,11 @@ public class ContainerBackpackBase extends Container {
 
 	int invRow, invCol, colPlayer, invSize, rest;
 	InventoryBackpackGeneral containerInv;
+	boolean updateNotification;
 	
 	public ContainerBackpackBase(InventoryBackpackGeneral myBPInv, InventoryPlayer myPlayerInv)
 	{
+		updateNotification = false;
 		containerInv = myBPInv;
 		invSize = containerInv.getSizeInventory();
 		if (invSize < 55)
@@ -147,7 +149,6 @@ public class ContainerBackpackBase extends Container {
         		InventoryBackpackBase chkInv = new InventoryBackpackBase(tempStack2, myPlayer, 0);
         		if (chkInv.getName() == containerInv.getName())
         		{
-        			//System.out.println("here1");
         			return tempStack;
         		}
         	}
@@ -167,25 +168,19 @@ public class ContainerBackpackBase extends Container {
         	//else if (!this.mergeItemStack(tempStack2, 0, this.x * this.y, false))
         	else if (!this.mergeItemStack(tempStack2, 0, invSize, false))
         	{
-        		//System.out.println("here3");
         		return null;
         	}
         	
         	if (tempStack2.stackSize == 0)
         	{
-        		//System.out.println("here4");
         		invSlot.putStack((ItemStack)null);
         	}
         	else 
         	{
-        		//System.out.println("here5");
         		invSlot.onSlotChanged();
         	}
         }
-        else
-        {
-        	//System.out.println("here6");
-        }
+        updateNotification = true;
         return tempStack;
     }
 	
@@ -209,12 +204,7 @@ public class ContainerBackpackBase extends Container {
 			//can not pick the current opened container up
 			return tmpSlot.getStack();
 		}
-		/**System.out.println("slotID = " + slotID);
-		System.out.println("buttonPressed = " + buttonPressed);
-		System.out.println("flag = " + flag);
-		System.out.println("player = " + player);
-		System.out.println("*********************************");**/
-		
+		updateNotification = true;
 		return super.slotClick(slotID, buttonPressed, flag, player);
     }
 }

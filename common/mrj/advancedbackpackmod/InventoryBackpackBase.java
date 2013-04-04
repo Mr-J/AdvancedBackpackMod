@@ -24,29 +24,6 @@ public class InventoryBackpackBase extends InventoryBackpackGeneral {
 	//private int size;
 	protected String uniqueID;
 	
-	/**public InventoryBackpackBase(ItemStack itemStack, EntityPlayer myPlayer)
-	{
-		//default values
-		uniqueID = "";
-		size = ConfigurationStore.BACKPACK_BASE_SIZE;
-		if (!itemStack.hasTagCompound())
-		{
-			itemStack.stackTagCompound = new NBTTagCompound();	
-			//Generate a random ID for every backpack
-			uniqueID = UUID.randomUUID().toString();
-		}
-		else
-		{
-			//read inventory size from nbt
-			readInvSizeFromNBT(itemStack.getTagCompound());
-		}
-		
-		myInventory = new ItemStack[size];
-		readFromNBT(itemStack.getTagCompound());
-		
-		//new InventoryBackpackBase(itemStack, myPlayer, ConfigurationStore.BACKPACK_BASE_SIZE);
-	}**/
-	
 	public InventoryBackpackBase(ItemStack itemStack, EntityPlayer myPlayer, int invSize)
 	{
 		super(itemStack, myPlayer, invSize);
@@ -54,23 +31,11 @@ public class InventoryBackpackBase extends InventoryBackpackGeneral {
 		uniqueID = "";
 		if (!itemStack.hasTagCompound())
 		{
-			if (invSize == 0)
-			{
-				size = ConfigurationStore.BACKPACK_BASE_START_SIZE;
-			}
-			else
-			{
-				size = invSize;
-			}
 			itemStack.stackTagCompound = new NBTTagCompound();	
 			//Generate a random ID for every backpack
 			uniqueID = UUID.randomUUID().toString();
 		}
-		else
-		{
-			//read inventory size from nbt
-			readInvSizeFromNBT(itemStack.getTagCompound());
-		}
+		readInvSizeFromNBT(itemStack.getTagCompound());
 		
 		myInventory = new ItemStack[size];
 		readFromNBT(itemStack.getTagCompound());
@@ -81,16 +46,28 @@ public class InventoryBackpackBase extends InventoryBackpackGeneral {
 		return this.uniqueID;
 	}
 	
+	@Override
 	public void readInvSizeFromNBT(NBTTagCompound myCompound)
 	{
-        NBTTagCompound contentTag = ((NBTTagCompound) myCompound.getTag("abminventory"));
-        if (contentTag == null)
-        {
-        	return;
-        }
-        size =  myCompound.getInteger("invSize");
+		if (myCompound != null)
+		{
+			 NBTTagCompound contentTag = ((NBTTagCompound) myCompound.getTag("abminventory"));
+			 if (contentTag == null)
+			 {
+				 size = ConfigurationStore.BACKPACK_BASE_START_SIZE;
+			 }
+			 else
+			 {
+				 size =  myCompound.getInteger("invSize");
+			 }
+		}
+		else
+		{
+			System.out.println("FATAL ERROR");
+		}
 	}
 	
+	@Override
 	public void readFromNBT(NBTTagCompound myCompound)
     {
         NBTTagCompound contentTag = ((NBTTagCompound) myCompound.getTag("abminventory"));
@@ -99,9 +76,13 @@ public class InventoryBackpackBase extends InventoryBackpackGeneral {
         	return;
         }
         
-        if (uniqueID == "")
+        if ("".equals(uniqueID))
         {
-        	uniqueID = myCompound.getString("uniqueID");
+           	uniqueID = myCompound.getString("uniqueID");
+        	if ("".equals(uniqueID))
+        	{
+        		uniqueID = UUID.randomUUID().toString();
+        	}
         }
         
         NBTTagList myList = contentTag.getTagList("indexList");
@@ -118,6 +99,7 @@ public class InventoryBackpackBase extends InventoryBackpackGeneral {
 
     }
 
+	@Override
     public void writeToNBT(NBTTagCompound myCompound)
     {
         NBTTagList myList = new NBTTagList();

@@ -12,19 +12,6 @@ public class ItemNetherPowerCore extends Item {
 	
 	public void updateIcons(IconRegister iconRegister)
     {
-		/**icons = new Icon[17];
-		
-		//icons[0] = iconRegister.func_94245_a("advancedbackpackmod:backpack32");
-		icons[0] = iconRegister.registerIcon("advancedbackpackmod:backpack32");
-		
-		for (int i = 1; i < 17; i++)
-		{
-			//icons[i] = iconRegister.func_94245_a("advancedbackpackmod:backpack32" + colorNames[i-1]);
-			icons[i] = iconRegister.registerIcon("advancedbackpackmod:backpack32" + colorNames[i-1]);
-		}**/
-		//icons = new Icon[2];
-		//icons[0] = iconRegister.registerIcon("advancedbackpackmod:backpack32colorless");
-		//icons[1] = iconRegister.registerIcon("advancedbackpackmod:backpack32outline");
 		this.iconIndex = iconRegister.registerIcon("advancedbackpackmod:netherpowercore");
     }
 }

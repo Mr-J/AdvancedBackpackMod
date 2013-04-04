@@ -2,7 +2,7 @@ Advanced Backpack Mod
 ---------------------
 
 Author: MrJ
-Current Version: 0.3.7alpha
+Current Version: 0.3.9alpha
 
 
 
@@ -35,3 +35,4 @@ Changelog
 				- Backpack name changed to Bag of Holding
 				- crafting recipe for magic backpack added (leather/enderpearl/leather, leather/enderchest/leather, leather/netherpowercore/leather
 				- some internal changes, should have no visible effect
+- 0.3.9alpha:	- magic backpacks should now work correctly

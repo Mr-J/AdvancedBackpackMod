@@ -5,6 +5,7 @@ import java.io.File;
 import mrj.advancedbackpackmod.config.ConfigurationHandler;
 import mrj.advancedbackpackmod.config.ConfigurationStore;
 import mrj.advancedbackpackmod.recipe.RecipeColorBackpack;
+import mrj.advancedbackpackmod.recipe.RecipeExtendBackpackMagic;
 //import mrj.advancedbackpackmod.recipe.RecipeExtendBackpack;
 import mrj.advancedbackpackmod.recipe.RecipeExtendBackpackBase;
 
@@ -78,6 +79,7 @@ public class AdvancedBackpackMod {
         		'b', new ItemStack(Item.enderPearl), 'c', new ItemStack(Block.enderChest), 'd', new ItemStack(powerCore));
         
         CraftingManager.getInstance().getRecipeList().add(new RecipeExtendBackpackBase());
+        CraftingManager.getInstance().getRecipeList().add(new RecipeExtendBackpackMagic());
         CraftingManager.getInstance().getRecipeList().add(new RecipeColorBackpack());
     }
    

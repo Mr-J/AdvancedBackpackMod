@@ -77,9 +77,7 @@ public class RecipeColorBackpack implements IRecipe {
 			{
 				if (inventoryCrafting.getStackInSlot(i).itemID == Item.dyePowder.itemID)
 				{
-					//System.out.println(inventoryCrafting.getStackInSlot(i) + " detected");
 					color = MathHelper.clamp_int(inventoryCrafting.getStackInSlot(i).getItemDamage(), 0, 15);
-					//System.out.println("color = " + color);
 				}
 				else if(inventoryCrafting.getStackInSlot(i).itemID == Item.leather.itemID)
 				{
@@ -98,11 +96,17 @@ public class RecipeColorBackpack implements IRecipe {
 			
 		}
 		ItemStack tmpStack = null;
-		if (color >= 0 && itemStack != null)
+		if (itemStack != null)
 		{
-			//System.out.println("setting color to " + colorNames[color]);
 			tmpStack = itemStack.copy();
-			((ItemBackpackBase)tmpStack.getItem()).setColor(tmpStack, color);
+			if (itemStack.itemID == ConfigurationStore.BACKPACK_BASE_ID)
+			{
+				((ItemBackpackBase)tmpStack.getItem()).setColor(tmpStack, color);
+			}
+			else
+			{
+				((ItemBackpackMagic)tmpStack.getItem()).setColor(tmpStack, color);
+			}
 		}
 		else
 		{
