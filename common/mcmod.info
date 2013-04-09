@@ -1,0 +1,20 @@
+[
+{
+  "modid": "abm",
+  "name": "Advanced Backpack Mod",
+  "description": "Carry whatever, whenever and wherever you want. Get the Backpack you ever wanted.",
+  "version": "@VERSION@",
+  "url": "",
+  "updateUrl": "",
+  "authorList": [
+    "MrJ"
+  ],
+  "credits": "By MrJ",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]

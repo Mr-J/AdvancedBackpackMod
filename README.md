@@ -2,7 +2,7 @@ Advanced Backpack Mod
 ---------------------
 
 Author: MrJ
-Current Version: 0.3.9alpha
+Current Version: 0.4.1alpha
 
 
 
@@ -36,3 +36,8 @@ Changelog
 				- crafting recipe for magic backpack added (leather/enderpearl/leather, leather/enderchest/leather, leather/netherpowercore/leather
 				- some internal changes, should have no visible effect
 - 0.3.9alpha:	- magic backpacks should now work correctly
+- 0.4.0alpha:	complete new functionality: 
+				- you can now shift-right click a container to open a direct transfer gui between backpack & container, 
+				this works currently only for standard backpacks (and is mostly untested with containers from mods)
+- 0.4.1alpha:	- currently limited to a few containers (vanilla chest, chest from ironchests2, ee3 alchemical chests, most containers from better storage)
+				- feel free to ask me for adding of additional containers
