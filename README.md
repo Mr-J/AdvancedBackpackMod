@@ -14,19 +14,19 @@ chest will open for you (this currently works only for the bag of holding). The 
 will remember its inventory (per color) even if its destroyed, so if you recraft it later your items will
 still be there.
 
-----------------------
-- Known Bugs/Issues: -
-----------------------
+######################
+# Known Bugs/Issues: #
+######################
 
 - connected containers like double chest are only shown as the single clicked chest part in the gui, 
 	but can be accessed individually. shift rightclick the chest part you want to see in the gui
 
 
-------------
-- Recipes: -
-------------
+############
+# Recipes: #
+############
 
-----------------------------
+#################################
 Bag of Holding (Basic Backpack):
 A B A
 A C A
@@ -36,7 +36,7 @@ A = leather
 B = ender pearl
 C = chest
 D = emerald
-----------------------------
+#################################
 Portable Pocketdimension (Magic Backpack):
 A B A
 A C A
@@ -46,7 +46,7 @@ A = leather
 B = ender pearl
 C = ender chest
 D = nether power core
-----------------------------
+#################################
 Nether Power Core (new Item):
 A A A
 A B A
@@ -54,13 +54,13 @@ A A A
 
 A = redstone dust
 B = nether star
-----------------------------
+#################################
 Backpack Dyeing (shapeless recipe):
 A B
 
 A = backpack
 B = dye
-----------------------------
+#################################
 Backpack Upgrade:
 A B A
 C D C
@@ -71,11 +71,11 @@ B = ender pearl
 C = emerald
 D = [the backpack]
 E = blaze rod
-----------------------------
+#################################
 
-------------------
-- Configuration: -
-------------------
+##################
+# Configuration: #
+##################
 
 The mod will create a config file in [MINECRAFTFOLDER]\config\abm
 There are some options which can be configured:
