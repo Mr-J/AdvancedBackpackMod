@@ -14,17 +14,18 @@ chest will open for you (this currently works only for the bag of holding). The 
 will remember its inventory (per color) even if its destroyed, so if you recraft it later your items will
 still be there.
 
-**********************
-* Known Bugs/Issues: *
-**********************
+----------------------
+- Known Bugs/Issues: -
+----------------------
 
 - connected containers like double chest are only shown as the single clicked chest part in the gui, 
 	but can be accessed individually. shift rightclick the chest part you want to see in the gui
 
 
-************
-* Recipes: *
-************
+------------
+- Recipes: -
+------------
+
 ----------------------------
 Bag of Holding (Basic Backpack):
 A B A
@@ -72,9 +73,9 @@ D = [the backpack]
 E = blaze rod
 ----------------------------
 
-******************
-* Configuration: *
-******************
+------------------
+- Configuration: -
+------------------
 
 The mod will create a config file in [MINECRAFTFOLDER]\config\abm
 There are some options which can be configured:
