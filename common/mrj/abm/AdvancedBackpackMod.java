@@ -37,7 +37,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
-@Mod(modid="abm", name="Advanced Backpack Mod", version="4.0.1a")
+@Mod(modid="abm", name="Advanced Backpack Mod", version="4.0.2beta")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 
 public class AdvancedBackpackMod {

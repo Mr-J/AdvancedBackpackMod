@@ -147,7 +147,7 @@ public class ContainerBackpackBase extends Container {
         		//true if the current stack is a ItemBackpackBase Item
         		
         		InventoryBackpackBase chkInv = new InventoryBackpackBase(tempStack2, myPlayer, 0);
-        		if (chkInv.getName() == containerInv.getName())
+        		if (chkInv.getInvName() == containerInv.getInvName())
         		{
         			return tempStack;
         		}

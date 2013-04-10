@@ -3,13 +3,18 @@ package mrj.abm;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mrj.abm.config.ConfigurationStore;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.Icon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 /**
@@ -29,7 +34,7 @@ public class ItemBackpackMagic extends ItemBackpackBase {
 		
 	}
 
-	public ItemStack onItemRightClick(ItemStack myStack, World myWorld, EntityPlayer myPlayer) 
+	/**public ItemStack onItemRightClick(ItemStack myStack, World myWorld, EntityPlayer myPlayer) 
 	{
 		if (!myWorld.isRemote)
 		{
@@ -43,7 +48,62 @@ public class ItemBackpackMagic extends ItemBackpackBase {
 			}
 		}		
 		return myStack;
-	}
+	}**/
+	@Override
+	public ItemStack onItemRightClick(ItemStack myStack, World myWorld, EntityPlayer myPlayer) 
+    {
+        if (!myWorld.isRemote)
+        {
+            if(!myPlayer.isSneaking())
+            {
+                myPlayer.openGui(AdvancedBackpackMod.instance, 1, myPlayer.worldObj, (int)myPlayer.posX, (int)myPlayer.posY, (int)myPlayer.posZ);
+            }
+            else
+            {
+                /**This is currently in development
+                 * 
+                 * will create a shared inventory for 
+                 * backpack and a clicked container
+                 * 
+                **/
+                //System.out.println("player is sneaking, use shared inventory mode for backpackbase");
+                MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(myWorld, myPlayer, true);
+                if (movingobjectposition != null)
+                {
+                    if (movingobjectposition.typeOfHit == EnumMovingObjectType.TILE)
+                    {
+                        int i = movingobjectposition.blockX;
+                        int j = movingobjectposition.blockY;
+                        int k = movingobjectposition.blockZ;
+                        
+                       if (myWorld.getBlockTileEntity(i, j, k) != null)
+                       {
+                           if (BlockContainer.class.isAssignableFrom(((Object)myWorld.getBlockTileEntity(i,  j, k).getBlockType()).getClass()))
+                           {
+                               //System.out.println("this is a subclass of BlockContainer");
+                               try 
+                               {
+                                   IInventory testInv = (IInventory) myWorld.getBlockTileEntity(i, j, k);
+                                   //System.out.println(Block.blocksList[myWorld.getBlockId(i, j, k)].getUnlocalizedName());
+                                   //System.out.println(Block.blocksList[myWorld.getBlockId(i, j, k)].getLocalizedName());
+                                   //System.out.println("inventory size = " + testInv.getSizeInventory());
+                                   if (checkContainer(Block.blocksList[myWorld.getBlockId(i, j, k)].getUnlocalizedName()))
+                                   {
+                                       myPlayer.openGui(AdvancedBackpackMod.instance, 3, myPlayer.worldObj, i, j, k);
+                                   }
+                               }
+                               catch(ClassCastException e)
+                               {
+                                   //System.out.println("has no IInventory");
+                               }
+                           }
+                       }             
+                    }
+                }
+            }
+        }       
+        return myStack;
+    }
 	
 	@Override
     //public void func_94581_a(IconRegister iconRegister)
@@ -70,16 +130,25 @@ public class ItemBackpackMagic extends ItemBackpackBase {
 		{
 			return;
 		}
-		if (containerMatchesItem(((EntityPlayer) entity).openContainer) == 0)
-		{
-			ContainerBackpackBase myContainer = (ContainerBackpackBase) ((EntityPlayer) entity).openContainer;
-			if (myContainer.updateNotification)
-			{
-				//System.out.println("saving inventory");
-				myContainer.saveToNBT(itemStack);
-				myContainer.updateNotification = false;
-			}
-		}
+		int containerType = containerMatchesItem(((EntityPlayer) entity).openContainer);
+        if (containerType == 0) 
+        {
+            ContainerBackpackBase myContainer = (ContainerBackpackBase) ((EntityPlayer) entity).openContainer;
+            if (myContainer.updateNotification)
+            {
+                myContainer.saveToNBT(itemStack);
+                myContainer.updateNotification = false;
+            }
+        }
+        else if (containerType == 1)
+        {
+            ContainerBackpackShared myContainer = (ContainerBackpackShared) ((EntityPlayer) entity).openContainer;
+            if (myContainer.updateNotification)
+            {
+                myContainer.saveToNBT(itemStack);
+                myContainer.updateNotification = false;
+            }
+        }
 	}
 	
 	private void checkInvSizeTag(ItemStack itemStack, Entity entity) {

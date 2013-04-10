@@ -47,8 +47,7 @@ public class ItemBackpackBase extends Item {
 	protected Icon[] icons;
 	
 	private static final String[] acceptedContainers = new String[] {"tile.chest", "tile.hopper",
-	    "tile.alchemicalChest", "tile.IronChest", 
-	    "tile.reinforcedChest", "tile.locker"};
+	    "tile.alchemicalChest", "tile.IronChest", "tile.reinforcedChest", "tile.locker", "tile.biblioshelf", "tile.bibliocase"};
 	
 	public ItemBackpackBase(int id)
 	{
@@ -80,7 +79,7 @@ public class ItemBackpackBase extends Item {
 				 * backpack and a clicked container
 				 * 
 				**/
-				System.out.println("player is sneaking, use shared inventory mode for backpackbase");
+				//System.out.println("player is sneaking, use shared inventory mode for backpackbase");
 				MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(myWorld, myPlayer, true);
 				if (movingobjectposition != null)
 				{
@@ -94,13 +93,13 @@ public class ItemBackpackBase extends Item {
 		               {
 		            	   if (BlockContainer.class.isAssignableFrom(((Object)myWorld.getBlockTileEntity(i,  j, k).getBlockType()).getClass()))
 		            	   {
-		            		   System.out.println("this is a subclass of BlockContainer");
+		            		   //System.out.println("this is a subclass of BlockContainer");
 		            		   try 
 		            		   {
 		            			   IInventory testInv = (IInventory) myWorld.getBlockTileEntity(i, j, k);
-		            			   System.out.println(Block.blocksList[myWorld.getBlockId(i, j, k)].getUnlocalizedName());
-		            			   System.out.println(Block.blocksList[myWorld.getBlockId(i, j, k)].getLocalizedName());
-			            		   System.out.println("inventory size = " + testInv.getSizeInventory());
+		            			   //System.out.println(Block.blocksList[myWorld.getBlockId(i, j, k)].getUnlocalizedName());
+		            			   //System.out.println(Block.blocksList[myWorld.getBlockId(i, j, k)].getLocalizedName());
+			            		   //System.out.println("inventory size = " + testInv.getSizeInventory());
 			            		   if (checkContainer(Block.blocksList[myWorld.getBlockId(i, j, k)].getUnlocalizedName()))
 			            		   {
 			            		       myPlayer.openGui(AdvancedBackpackMod.instance, 2, myPlayer.worldObj, i, j, k);
@@ -108,7 +107,7 @@ public class ItemBackpackBase extends Item {
 		            		   }
 		            		   catch(ClassCastException e)
 		            		   {
-		            			   System.out.println("has no IInventory");
+		            			   //System.out.println("has no IInventory");
 		            		   }
 		            	   }
 		               }             
@@ -122,52 +121,38 @@ public class ItemBackpackBase extends Item {
 	@Override
 	public void onUpdate(ItemStack itemStack, World world, Entity entity, int indexInInventory, boolean isCurrentItem)
 	{
-		checkForSizeUpdate(itemStack, entity);
+		
 		
 		if (world.isRemote || !isCurrentItem)
 		{
 			return;
 		}
+		
+		checkForSizeUpdate(itemStack, entity);
+		
 		if(((EntityPlayer) entity).openContainer == null || ((EntityPlayer) entity).openContainer instanceof ContainerPlayer)
 		{
 			return;
 		}
-		//System.out.println("current opened container =");
-		//System.out.println(((EntityPlayer) entity).openContainer);
 		int containerType = containerMatchesItem(((EntityPlayer) entity).openContainer);
-		//System.out.println("containerType = " + containerType);
 		if (containerType == 0) 
 		{
-		    //System.out.println("containerType = 0");
 	        ContainerBackpackBase myContainer = (ContainerBackpackBase) ((EntityPlayer) entity).openContainer;
             if (myContainer.updateNotification)
             {
-                System.out.println("saving inventory");
                 myContainer.saveToNBT(itemStack);
                 myContainer.updateNotification = false;
             }
 		}
 		else if (containerType == 1)
 		{
-		    //System.out.println("containerType = 1");
 	        ContainerBackpackShared myContainer = (ContainerBackpackShared) ((EntityPlayer) entity).openContainer;
             if (myContainer.updateNotification)
             {
-                System.out.println("saving inventory");
                 myContainer.saveToNBT(itemStack);
                 myContainer.updateNotification = false;
             }
 		}
-		/**if (containerMatchesItem(((EntityPlayer) entity).openContainer) >= 0)
-		{
-			ContainerBackpackBase myContainer = (ContainerBackpackBase) ((EntityPlayer) entity).openContainer;
-			if (myContainer.updateNotification)
-			{
-				System.out.println("saving inventory");
-				myContainer.saveToNBT(itemStack);
-				myContainer.updateNotification = false;
-			}
-		}**/
 	}
 
 	public void checkForSizeUpdate(ItemStack itemStack, Entity entity)
@@ -196,19 +181,12 @@ public class ItemBackpackBase extends Item {
 	}
 	
 	protected int containerMatchesItem(Container openContainer) {
-		//return openContainer instanceof ContainerBackpackBase;
-	    //System.out.println(openContainer.getClass());
-	    
-	    //System.out.println(ContainerBackpackBase.class.isAssignableFrom(openContainer.getClass()));
-	    //System.out.println(ContainerBackpackShared.class.isAssignableFrom(openContainer.getClass()));
 	    if (ContainerBackpackBase.class.isAssignableFrom(openContainer.getClass()))
-	    {
-	        //System.out.println("open container matches containerbackpackbase");
+	    {	        
 	        return 0;
 	    }
 	    else if (ContainerBackpackShared.class.isAssignableFrom(openContainer.getClass()))
 	    {
-	        //System.out.println("open container matches containerbackpackshared");
 	        return 1;
 	    }
 	    else
@@ -224,16 +202,6 @@ public class ItemBackpackBase extends Item {
     //public void func_94581_a(IconRegister iconRegister)
 	public void updateIcons(IconRegister iconRegister)
     {
-		/**icons = new Icon[17];
-		
-		//icons[0] = iconRegister.func_94245_a("advancedbackpackmod:backpack32");
-		icons[0] = iconRegister.registerIcon("advancedbackpackmod:backpack32");
-		
-		for (int i = 1; i < 17; i++)
-		{
-			//icons[i] = iconRegister.func_94245_a("advancedbackpackmod:backpack32" + colorNames[i-1]);
-			icons[i] = iconRegister.registerIcon("advancedbackpackmod:backpack32" + colorNames[i-1]);
-		}**/
 		icons = new Icon[2];
 		icons[0] = iconRegister.registerIcon("advancedbackpackmod:backpack32colorless");
 		icons[1] = iconRegister.registerIcon("advancedbackpackmod:backpack32outline");
@@ -242,12 +210,6 @@ public class ItemBackpackBase extends Item {
 	@Override
 	public Icon getIcon(ItemStack itemStack, int renderPass)
 	{
-		//System.out.println("currentColor = " + currentColor);
-		//System.out.println("icon index = " + (((ItemBackpackBase)itemStack.getItem()).currentColor)+1);
-		//return icons[((ItemBackpackBase)itemStack.getItem()).currentColor+1];
-		//System.out.println(icons[0]);
-		
-		//return icons[getColor(itemStack) + 1];
 		if (renderPass != 1)
 		{
 			return icons[0];

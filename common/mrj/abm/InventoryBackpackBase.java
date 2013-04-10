@@ -35,36 +35,30 @@ public class InventoryBackpackBase extends InventoryBackpackGeneral {
 			//Generate a random ID for every backpack
 			uniqueID = UUID.randomUUID().toString();
 		}
-		readInvSizeFromNBT(itemStack.getTagCompound());
+		//readInvSizeFromNBT(itemStack.getTagCompound());
+		size = readInvSizeFromNBT(itemStack.getTagCompound());
 		
 		myInventory = new ItemStack[size];
 		readFromNBT(itemStack.getTagCompound());
 	}
 
 	@Override
-	public String getName() {
+	public String getInvName() {
 		return this.uniqueID;
 	}
 	
 	@Override
-	public void readInvSizeFromNBT(NBTTagCompound myCompound)
+	public int readInvSizeFromNBT(NBTTagCompound myCompound)
 	{
 		if (myCompound != null)
 		{
 			 NBTTagCompound contentTag = ((NBTTagCompound) myCompound.getTag("abminventory"));
 			 if (contentTag == null)
 			 {
-				 size = ConfigurationStore.BACKPACK_BASE_START_SIZE;
-			 }
-			 else
-			 {
-				 size =  myCompound.getInteger("invSize");
+				 return ConfigurationStore.BACKPACK_BASE_START_SIZE;
 			 }
 		}
-		else
-		{
-			System.out.println("FATAL ERROR");
-		}
+		return  myCompound.getInteger("invSize");
 	}
 	
 	@Override

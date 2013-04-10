@@ -19,7 +19,7 @@ import net.minecraft.nbt.NBTTagCompound;
  * 
  */
 
-public class InventoryBackpackGeneral implements IInventory {
+public abstract class InventoryBackpackGeneral implements IInventory {
 	protected ItemStack[] myInventory;
 	protected int size;
 	
@@ -83,70 +83,61 @@ public class InventoryBackpackGeneral implements IInventory {
 			}
 		}
 	}
-
-	public void readInvSizeFromNBT(NBTTagCompound myCompound)
-	{
-		//This needs to be overwritten
-	}
 	
-	public void readFromNBT(NBTTagCompound myCompound)
-    {
-		//This needs to be overwritten
-    }
-
-    public void writeToNBT(NBTTagCompound myCompound)
-    {
-    	//This needs to be overwritten
-    }
-
-	public void increaseSize(int i) {
+	public void increaseSize(int i) 
+	{
 		ItemStack[] newInventory = new ItemStack[size + i];
 		System.arraycopy(myInventory, 0, newInventory, 0, size);
 		myInventory = newInventory;
 		size = size + i;
 	}
+
+	abstract public int readInvSizeFromNBT(NBTTagCompound myCompound);
 	
-	public String getName() {
-		//Overwrite this
-		return "";
-	}
+	abstract public void readFromNBT(NBTTagCompound myCompound);
+
+    abstract public void writeToNBT(NBTTagCompound myCompound);
+
+	//abstract public String getName();
+	@Override
+	abstract public String getInvName();
 	
 	//*********************************************************************
 	//UNUSED METHODS
 	
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer myPlayer) {
+	public boolean isUseableByPlayer(EntityPlayer myPlayer) 
+	{
 		return true;
 	}
 	
 	@Override
-	public String getInvName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
+	public int getInventoryStackLimit() 
+	{
 		// TODO Auto-generated method stub
 		return 64;
 	}
 	
 	@Override
-	public void openChest() {
+	public void openChest() 
+	{
 	}
 
 	@Override
-	public void closeChest() {
+	public void closeChest() 
+	{
 	}
 
 	@Override
-	public boolean isInvNameLocalized() {
+	public boolean isInvNameLocalized() 
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) 
+	{
 		// TODO Auto-generated method stub
 		return true;
 	}

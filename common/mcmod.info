@@ -6,10 +6,7 @@
   "version": "@VERSION@",
   "url": "",
   "updateUrl": "",
-  "authorList": [
-    "MrJ"
-  ],
-  "credits": "By MrJ",
+  "author": [ "MrJ" ],
   "logoFile": "",
   "screenshots": [
   ],

@@ -31,6 +31,7 @@ public class ConfigurationHandler {
 			/* item ids*/
 			ConfigurationStore.BACKPACK_BASE_ID = myConfig.getItem("backpackbase", ConfigurationStore.BACKPACK_BASE_ID_DEFAULT).getInt(ConfigurationStore.BACKPACK_BASE_ID_DEFAULT);
 			ConfigurationStore.BACKPACK_MAGIC_ID = myConfig.getItem("backpackmagic", ConfigurationStore.BACKPACK_MAGIC_ID_DEFAULT).getInt(ConfigurationStore.BACKPACK_MAGIC_ID_DEFAULT);
+			ConfigurationStore.BACKPACK_POWERCORE_ID = myConfig.getItem("backpackpowercore", ConfigurationStore.BACKPACK_POWERCORE_ID_DEFAULT).getInt(ConfigurationStore.BACKPACK_POWERCORE_ID_DEFAULT);
 			/* general settings*/
 			ConfigurationStore.BACKPACK_FIXED_COLUMN_SIZE = myConfig.get("general", "fixed_column_size", ConfigurationStore.BACKPACK_FIXED_COLUMN_SIZE_DEFAULT).getBoolean(ConfigurationStore.BACKPACK_FIXED_COLUMN_SIZE_DEFAULT);
 			ConfigurationStore.BACKPACK_BASE_START_SIZE = myConfig.get("general", "base_start_size", ConfigurationStore.BACKPACK_BASE_START_SIZE_DEFAULT).getInt(ConfigurationStore.BACKPACK_BASE_START_SIZE_DEFAULT);

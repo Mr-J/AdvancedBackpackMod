@@ -17,6 +17,7 @@ public class ConfigurationStore {
 	 */
 	public static int BACKPACK_BASE_ID_DEFAULT = 22100;
 	public static int BACKPACK_MAGIC_ID_DEFAULT = 22101;
+	public static int BACKPACK_POWERCORE_ID_DEFAULT = 22102;
 	//public static boolean BACKPACK_UPGRADE_TIERED_DEFAULT = false;
 	//public static boolean BACKPACK_MAX_SIZE_FORCE = false;
 	
@@ -36,6 +37,7 @@ public class ConfigurationStore {
 	
 	public static int BACKPACK_BASE_ID;
 	public static int BACKPACK_MAGIC_ID;
+	public static int BACKPACK_POWERCORE_ID;
 	
 	public static boolean BACKPACK_FIXED_COLUMN_SIZE;
 	//public static boolean BACKPACK_UPGRADE_TIERED;

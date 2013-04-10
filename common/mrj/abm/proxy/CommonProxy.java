@@ -50,6 +50,13 @@ public class CommonProxy implements IGuiHandler {
 			IInventory containerInventory = (IInventory) te;
 			return new ContainerBackpackShared(backpackInventory, containerInventory);
 		}
+		else if (ID == 3)
+		{
+		    InventoryBackpackMagic backpackInventory = new InventoryBackpackMagic(player.inventory.getCurrentItem(), player, -1);
+            TileEntity te = world.getBlockTileEntity(x,  y,  z);
+            IInventory containerInventory = (IInventory) te;
+            return new ContainerBackpackShared(backpackInventory, containerInventory);
+		}
 		else
 		{
 			System.out.println("Error, ID is " + ID + ". This should not happen");
@@ -87,10 +94,21 @@ public class CommonProxy implements IGuiHandler {
 			InventoryBackpackBase backpackInventory = new InventoryBackpackBase(player.inventory.getCurrentItem(), player, 0);
 			TileEntity te = world.getBlockTileEntity(x,  y,  z);
 			IInventory containerInventory = (IInventory) te;
-			System.out.println(world.getBlockId(x, y, z));
-			System.out.println(Block.blocksList[world.getBlockId(x, y, z)]);
-			System.out.println(Block.blocksList[world.getBlockId(x, y, z)].getUnlocalizedName());
+			//System.out.println(world.getBlockId(x, y, z));
+			//System.out.println(Block.blocksList[world.getBlockId(x, y, z)]);
+			//System.out.println(Block.blocksList[world.getBlockId(x, y, z)].getUnlocalizedName());
 			return new GuiBackpackShared(backpackInventory, containerInventory, Block.blocksList[world.getBlockId(x, y, z)].getLocalizedName());
+		}
+		else if (ID == 3)
+		{
+		    InventoryBackpackMagic backpackInventory = new InventoryBackpackMagic(player.inventory.getCurrentItem(), player, -1);
+		    if (player.inventory.getCurrentItem().getTagCompound().getInteger("invSize") - backpackInventory.getSizeInventory() > 0)
+            {
+                backpackInventory.increaseSize(player.inventory.getCurrentItem().getTagCompound().getInteger("invSize") - backpackInventory.getSizeInventory());
+            }
+            TileEntity te = world.getBlockTileEntity(x,  y,  z);
+            IInventory containerInventory = (IInventory) te;
+            return new GuiBackpackShared(backpackInventory, containerInventory, Block.blocksList[world.getBlockId(x, y, z)].getLocalizedName());
 		}
 		else
 		{

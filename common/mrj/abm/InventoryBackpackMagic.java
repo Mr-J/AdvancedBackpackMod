@@ -32,7 +32,7 @@ public class InventoryBackpackMagic extends InventoryBackpackGeneral {
 		{
 			currentColor = color;
 		}
-		size = readInvSizeFromNBT(invOwner, currentColor);
+		size = readInvSizeFromNBT((NBTTagCompound)itemStack.getTagCompound());
 		
 		myInventory = new ItemStack[size];
 		readFromNBT(itemStack.getTagCompound());
@@ -60,7 +60,7 @@ public class InventoryBackpackMagic extends InventoryBackpackGeneral {
 		}
 	}
 	
-	public int readInvSizeFromNBT(EntityPlayer entityPlayer, int color)
+	public int readInvSizeFromOwnerNBT(EntityPlayer entityPlayer, int color)
 	{
 		NBTTagCompound playerCompound = entityPlayer.getEntityData();
 		NBTTagCompound playerPersisted = (NBTTagCompound) playerCompound.getTag("PlayerPersisted");
@@ -131,8 +131,8 @@ public class InventoryBackpackMagic extends InventoryBackpackGeneral {
 		}
 		else
 		{
-			System.out.println("WARNING: NO INVENTORY TAG FOUND FOR THE invOwner");
-			System.out.println("invOwner = " +invOwner);
+			//System.out.println("WARNING: NO INVENTORY TAG FOUND FOR THE invOwner");
+			//System.out.println("invOwner = " +invOwner);
 		}
     }
 
@@ -179,6 +179,18 @@ public class InventoryBackpackMagic extends InventoryBackpackGeneral {
 		playerCompound.setTag("PlayerPersisted", playerPersisted);
 		
 		//myCompound.setInteger("invSize", size);
+    }
+
+    @Override
+    public int readInvSizeFromNBT(NBTTagCompound myCompound) 
+    {
+        return readInvSizeFromOwnerNBT(invOwner, currentColor);
+    }
+
+    @Override
+    public String getInvName() 
+    {
+        return "BackpackMagic_" + currentColor;
     }
 
 }

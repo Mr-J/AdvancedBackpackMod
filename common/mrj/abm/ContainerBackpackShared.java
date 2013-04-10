@@ -21,7 +21,7 @@ import net.minecraft.util.ReportedException;
 /**
  * Advanced Backpack Mod
  * 
- * ContainerBackpackBase
+ * ContainerBackpackShared
  * 
  * @author MrJ
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
@@ -234,7 +234,7 @@ public class ContainerBackpackShared extends Container {
          * needs to be rewritten
          * 
          */
-        System.out.println("transferStackInSlot in ContainerBackpackShared invoked");
+        //System.out.println("transferStackInSlot in ContainerBackpackShared invoked");
         Slot invSlot = (Slot)this.inventorySlots.get(targetSlot);
         
         if (invSlot != null && invSlot.getHasStack())
@@ -374,7 +374,7 @@ public class ContainerBackpackShared extends Container {
     @Override
     public ItemStack slotClick(int targetSlotID, int mouseButtonPressed, int flag, EntityPlayer player)
     {
-        System.out.println("slotClick in ContainerBackpackShared invoked");
+        //System.out.println("slotClick in ContainerBackpackShared invoked");
         ItemStack returnStack = null;
         //InventoryPlayer inventoryplayer = player.inventory;
         InventoryPlayer invPlayer = player.inventory;
@@ -536,7 +536,7 @@ public class ContainerBackpackShared extends Container {
              */
             if ((flag == 0 || flag == 1) && (mouseButtonPressed == 0 || mouseButtonPressed == 1))
             {
-                System.out.println("standard left or right click performed");
+                //System.out.println("standard left or right click performed");
                 //if the targetSlotID is not valid
                 if (targetSlotID == -999)
                 {

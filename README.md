@@ -2,16 +2,98 @@ Advanced Backpack Mod
 ---------------------
 
 Author: MrJ
-Current Version: 0.4.1alpha
+Current Version: 0.4.2beta
+
+This mod offers a quite flexible kind of backpack. There are several options which can be configured 
+in the configuration file of the mod to individually adjust the backpack to the needs of every user.
+See the configuration section for details. There is also a recipe to color the backpacks and another 
+recipe to upgrade the storage size of a backpack, see the recipe section for details. The standard 
+functionality is the usual one for backpacks, right click to open it. The additional function is if you
+shift-rightclick a support container (like vanilla chests), a direct transfer gui between backpack and
+chest will open for you (this currently works only for the bag of holding). The Portable Pocketdimension
+will remember its inventory (per color) even if its destroyed, so if you recraft it later your items will
+still be there.
+
+**********************
+* Known Bugs/Issues: *
+**********************
+
+- connected containers like double chest are only shown as the single clicked chest part in the gui, 
+	but can be accessed individually. shift rightclick the chest part you want to see in the gui
 
 
+************
+* Recipes: *
+************
+----------------------------
+Bag of Holding (Basic Backpack):
+A B A
+A C A
+A D A
 
+A = leather
+B = ender pearl
+C = chest
+D = emerald
+----------------------------
+Portable Pocketdimension (Magic Backpack):
+A B A
+A C A
+A D A
 
+A = leather
+B = ender pearl
+C = ender chest
+D = nether power core
+----------------------------
+Nether Power Core (new Item):
+A A A
+A B A
+A A A
 
+A = redstone dust
+B = nether star
+----------------------------
+Backpack Dyeing (shapeless recipe):
+A B
 
+A = backpack
+B = dye
+----------------------------
+Backpack Upgrade:
+A B A
+C D C
+A E A
 
+A = string
+B = ender pearl
+C = emerald
+D = [the backpack]
+E = blaze rod
+----------------------------
 
+******************
+* Configuration: *
+******************
 
+The mod will create a config file in [MINECRAFTFOLDER]\config\abm
+There are some options which can be configured:
+	- base_start_size
+	- base_max_size
+    - base_upgrade_increment
+	- magic_start_size
+	- magic_max_size
+    - magic_upgrade_increment
+	- fixed_column_size
+The start size is the basic size a backpack has when it is crafted. This applies only to first 
+crafting for portable pocketdimensions since they remember their size and contents afterwards.
+Max size is the maximum size a backpack can get through upgrading and the upgrade increment is the
+number of additional slots per upgrade.
+The fixed column size is for players which do not want a gui with variable column size and 
+prefer the standard minecraft column size (9 by default). There is also an option for setting the
+item IDs .
+
+	
 
 Changelog
 - 0.1alpha: 	basic inventory mostly working, nothing special there at the moment
