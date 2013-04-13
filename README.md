@@ -9,7 +9,7 @@ in the configuration file of the mod to individually adjust the backpack to the 
 See the configuration section for details. There is also a recipe to color the backpacks and another 
 recipe to upgrade the storage size of a backpack, see the recipe section for details. The standard 
 functionality is the usual one for backpacks, right click to open it. The additional function is if you
-shift-rightclick a support container (like vanilla chests), a direct transfer gui between backpack and
+shift-rightclick a supported container (like vanilla chests), a direct transfer gui between backpack and
 chest will open for you (this currently works only for the bag of holding). The Portable Pocketdimension
 will remember its inventory (per color) even if its destroyed, so if you recraft it later your items will
 still be there.
@@ -26,52 +26,8 @@ still be there.
 # Recipes: #
 ############
 
-#################################
-Bag of Holding (Basic Backpack):
-A B A
-A C A
-A D A
-
-A = leather
-B = ender pearl
-C = chest
-D = emerald
-#################################
-Portable Pocketdimension (Magic Backpack):
-A B A
-A C A
-A D A
-
-A = leather
-B = ender pearl
-C = ender chest
-D = nether power core
-#################################
-Nether Power Core (new Item):
-A A A
-A B A
-A A A
-
-A = redstone dust
-B = nether star
-#################################
-Backpack Dyeing (shapeless recipe):
-A B
-
-A = backpack
-B = dye
-#################################
-Backpack Upgrade:
-A B A
-C D C
-A E A
-
-A = string
-B = ender pearl
-C = emerald
-D = [the backpack]
-E = blaze rod
-#################################
+The recipes are not displayed properly here, so please take a look at the thread in the minecraft forum:
+www.minecraftforum.net/topic/1765606-151forge-advanced-backpack-mod/
 
 ##################
 # Configuration: #
@@ -124,3 +80,6 @@ Changelog
 				this works currently only for standard backpacks (and is mostly untested with containers from mods)
 - 0.4.1alpha:	- currently limited to a few containers (vanilla chest, chest from ironchests2, ee3 alchemical chests, most containers from better storage)
 				- feel free to ask me for adding of additional containers
+- 0.4.2beta:	first public release
+- 0.4.3beta:	- shared inventory works now for vanilla ender chests too
+- 0.4.4beta:	- shared inventory is now displayed properly for double chests (and lockers) too

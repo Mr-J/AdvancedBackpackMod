@@ -7,6 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import mrj.abm.config.ConfigurationStore;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockEnderChest;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -69,16 +70,11 @@ public class ItemBackpackBase extends Item {
 		{
 			if(!myPlayer.isSneaking())
 			{
-				myPlayer.openGui(AdvancedBackpackMod.instance, 0, myPlayer.worldObj, (int)myPlayer.posX, (int)myPlayer.posY, (int)myPlayer.posZ);
+			    openGui(0, myPlayer, (int)myPlayer.posX, (int)myPlayer.posY, (int)myPlayer.posZ);
+			    //myPlayer.openGui(AdvancedBackpackMod.instance, 0, myPlayer.worldObj, (int)myPlayer.posX, (int)myPlayer.posY, (int)myPlayer.posZ);
 			}
 			else
 			{
-				/**This is currently in development
-				 * 
-				 * will create a shared inventory for 
-				 * backpack and a clicked container
-				 * 
-				**/
 				//System.out.println("player is sneaking, use shared inventory mode for backpackbase");
 				MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(myWorld, myPlayer, true);
 				if (movingobjectposition != null)
@@ -102,20 +98,49 @@ public class ItemBackpackBase extends Item {
 			            		   //System.out.println("inventory size = " + testInv.getSizeInventory());
 			            		   if (checkContainer(Block.blocksList[myWorld.getBlockId(i, j, k)].getUnlocalizedName()))
 			            		   {
-			            		       myPlayer.openGui(AdvancedBackpackMod.instance, 2, myPlayer.worldObj, i, j, k);
+			            		       openGui(1, myPlayer, i, j, k);
 			            		   }
 		            		   }
 		            		   catch(ClassCastException e)
 		            		   {
-		            			   //System.out.println("has no IInventory");
+		            			   System.out.println("has no IInventory");
+		            			   System.out.println(myWorld.getBlockTileEntity(i,  j, k));
+		            			   System.out.println(myWorld.getBlockTileEntity(i, j, k).getBlockType());
+		            			   System.out.println(myWorld.getBlockTileEntity(i, j, k).getBlockType().getClass());
+		            		   }
+		            		   if (BlockEnderChest.class.isAssignableFrom(((Object)myWorld.getBlockTileEntity(i,  j, k).getBlockType()).getClass()))
+		            		   {
+		            		       //System.out.println("this is a vanilla enderchest");
+		            		       openGui(2, myPlayer, i, j, k);
 		            		   }
 		            	   }
-		               }             
+
+		               }
+		               else
+		               {
+		                   System.out.println("has no tileentity");
+		               }
 		            }
 				}
 			}
 		}		
 		return myStack;
+	}
+	
+	public void openGui(int type, EntityPlayer player, int x, int y, int z)
+	{
+	    if (type == 0)
+	    {
+	        player.openGui(AdvancedBackpackMod.instance, 0, player.worldObj, x, y, z);
+	    }
+	    else if (type == 1)
+	    {
+	        player.openGui(AdvancedBackpackMod.instance, 2, player.worldObj, x, y, z);
+	    }
+	    else if (type == 2)
+	    {
+	        player.openGui(AdvancedBackpackMod.instance, 4, player.worldObj, x, y, z);
+	    }
 	}
 	
 	@Override
@@ -128,7 +153,7 @@ public class ItemBackpackBase extends Item {
 			return;
 		}
 		
-		checkForSizeUpdate(itemStack, entity);
+		runChecks(itemStack, entity);
 		
 		if(((EntityPlayer) entity).openContainer == null || ((EntityPlayer) entity).openContainer instanceof ContainerPlayer)
 		{
@@ -153,6 +178,11 @@ public class ItemBackpackBase extends Item {
                 myContainer.updateNotification = false;
             }
 		}
+	}
+	
+	public void runChecks(ItemStack itemStack, Entity entity)
+	{
+	    checkForSizeUpdate(itemStack, entity);
 	}
 
 	public void checkForSizeUpdate(ItemStack itemStack, Entity entity)

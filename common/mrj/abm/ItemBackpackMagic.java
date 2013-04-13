@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import mrj.abm.config.ConfigurationStore;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockEnderChest;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,7 +50,7 @@ public class ItemBackpackMagic extends ItemBackpackBase {
 		}		
 		return myStack;
 	}**/
-	@Override
+	/**@Override
 	public ItemStack onItemRightClick(ItemStack myStack, World myWorld, EntityPlayer myPlayer) 
     {
         if (!myWorld.isRemote)
@@ -60,12 +61,6 @@ public class ItemBackpackMagic extends ItemBackpackBase {
             }
             else
             {
-                /**This is currently in development
-                 * 
-                 * will create a shared inventory for 
-                 * backpack and a clicked container
-                 * 
-                **/
                 //System.out.println("player is sneaking, use shared inventory mode for backpackbase");
                 MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(myWorld, myPlayer, true);
                 if (movingobjectposition != null)
@@ -96,6 +91,11 @@ public class ItemBackpackMagic extends ItemBackpackBase {
                                {
                                    //System.out.println("has no IInventory");
                                }
+                               if (BlockEnderChest.class.isAssignableFrom(((Object)myWorld.getBlockTileEntity(i,  j, k).getBlockType()).getClass()))
+                               {
+                                   //System.out.println("this is a vanilla enderchest");
+                                   myPlayer.openGui(AdvancedBackpackMod.instance, 5, myPlayer.worldObj, i, j, k);
+                               }
                            }
                        }             
                     }
@@ -103,6 +103,23 @@ public class ItemBackpackMagic extends ItemBackpackBase {
             }
         }       
         return myStack;
+    }**/
+	
+	@Override
+	public void openGui(int type, EntityPlayer player, int x, int y, int z)
+    {
+	    if (type == 0)
+	    {
+	        player.openGui(AdvancedBackpackMod.instance, 1, player.worldObj, x, y, z);
+	    }
+	    else if (type == 1)
+        {
+            player.openGui(AdvancedBackpackMod.instance, 3, player.worldObj, x, y, z);
+        }
+        else if (type == 2)
+        {
+            player.openGui(AdvancedBackpackMod.instance, 5, player.worldObj, x, y, z);
+        }
     }
 	
 	@Override
@@ -114,7 +131,7 @@ public class ItemBackpackMagic extends ItemBackpackBase {
 		icons[1] = iconRegister.registerIcon("advancedbackpackmod:backpackmagic32outline");
     }
 	
-	@Override
+	/**@Override
 	public void onUpdate(ItemStack itemStack, World world, Entity entity, int indexInInventory, boolean isCurrentItem)
 	{
 		if (world.isRemote || !isCurrentItem)
@@ -149,7 +166,15 @@ public class ItemBackpackMagic extends ItemBackpackBase {
                 myContainer.updateNotification = false;
             }
         }
-	}
+	}**/
+	
+	@Override
+	public void runChecks(ItemStack itemStack, Entity entity)
+    {
+        checkInvSizeTag(itemStack, entity);
+	    checkForSizeUpdate(itemStack, entity);
+	    syncColor(itemStack, entity);
+    }
 	
 	private void checkInvSizeTag(ItemStack itemStack, Entity entity) {
 		NBTTagCompound nbtTagCompound = itemStack.getTagCompound();
