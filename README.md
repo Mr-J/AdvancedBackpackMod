@@ -2,7 +2,7 @@ Advanced Backpack Mod
 ---------------------
 
 Author: MrJ
-Current Version: 0.4.2beta
+Current Version: 0.4.4beta
 
 This mod offers a quite flexible kind of backpack. There are several options which can be configured 
 in the configuration file of the mod to individually adjust the backpack to the needs of every user.
