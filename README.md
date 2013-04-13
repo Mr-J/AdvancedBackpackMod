@@ -18,8 +18,7 @@ still be there.
 # Known Bugs/Issues: #
 ######################
 
-- connected containers like double chest are only shown as the single clicked chest part in the gui, 
-	but can be accessed individually. shift rightclick the chest part you want to see in the gui
+- none
 
 
 ############
