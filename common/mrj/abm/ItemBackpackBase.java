@@ -103,10 +103,10 @@ public class ItemBackpackBase extends Item {
 		            		   }
 		            		   catch(ClassCastException e)
 		            		   {
-		            			   System.out.println("has no IInventory");
-		            			   System.out.println(myWorld.getBlockTileEntity(i,  j, k));
-		            			   System.out.println(myWorld.getBlockTileEntity(i, j, k).getBlockType());
-		            			   System.out.println(myWorld.getBlockTileEntity(i, j, k).getBlockType().getClass());
+		            			   //System.out.println("has no IInventory");
+		            			   //System.out.println(myWorld.getBlockTileEntity(i,  j, k));
+		            			   //System.out.println(myWorld.getBlockTileEntity(i, j, k).getBlockType());
+		            			   //System.out.println(myWorld.getBlockTileEntity(i, j, k).getBlockType().getClass());
 		            		   }
 		            		   if (BlockEnderChest.class.isAssignableFrom(((Object)myWorld.getBlockTileEntity(i,  j, k).getBlockType()).getClass()))
 		            		   {
@@ -118,7 +118,7 @@ public class ItemBackpackBase extends Item {
 		               }
 		               else
 		               {
-		                   System.out.println("has no tileentity");
+		                   //System.out.println("has no tileentity");
 		               }
 		            }
 				}

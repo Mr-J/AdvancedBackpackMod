@@ -23,8 +23,8 @@ import net.minecraft.world.World;
 public class RecipeExtendBackpackBase implements IRecipe {
 	
 	int[] recipeComponents = {Item.silk.itemID, Item.enderPearl.itemID, Item.silk.itemID,
-									Item.emerald.itemID, ConfigurationStore.BACKPACK_BASE_ID, Item.emerald.itemID,
-									Item.silk.itemID, Item.blazeRod.itemID, Item.silk.itemID};
+							    Item.emerald.itemID, ConfigurationStore.BACKPACK_BASE_ID, Item.emerald.itemID,
+								Item.silk.itemID, Item.blazeRod.itemID, Item.silk.itemID};
 	@Override
 	public boolean matches(InventoryCrafting inventoryCrafting, World world) {
 
@@ -32,6 +32,12 @@ public class RecipeExtendBackpackBase implements IRecipe {
 		{
 			//inventory smaller than 3*3 -> crafting not possible
 			return false;
+		}
+		
+		if (ConfigurationStore.BACKPACK_ENABLE_EASIER_RECIPES)
+		{
+		    recipeComponents[3] = Item.diamond.itemID;
+		    recipeComponents[5] = Item.diamond.itemID;
 		}
 		
 		for (int i = 0; i < 3; i++)

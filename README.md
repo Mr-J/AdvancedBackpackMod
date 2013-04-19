@@ -2,7 +2,7 @@ Advanced Backpack Mod
 ---------------------
 
 Author: MrJ
-Current Version: 0.4.4beta
+Current Version: 0.4.5beta
 
 This mod offers a quite flexible kind of backpack. There are several options which can be configured 
 in the configuration file of the mod to individually adjust the backpack to the needs of every user.
@@ -82,3 +82,5 @@ Changelog
 - 0.4.2beta:	first public release
 - 0.4.3beta:	- shared inventory works now for vanilla ender chests too
 - 0.4.4beta:	- shared inventory is now displayed properly for double chests (and lockers) too
+- 0.4.5beta:	- option to increase the number of nether power cores per recipe in config file
+				- option to activate cheaper recipes for crafting of the portable pocketdimension & cheaper upgrade

@@ -36,6 +36,12 @@ public class RecipeExtendBackpackMagic implements IRecipe {
 			return false;
 		}
 		
+		if (ConfigurationStore.BACKPACK_ENABLE_EASIER_RECIPES)
+        {
+            recipeComponents[3] = Item.diamond.itemID;
+            recipeComponents[5] = Item.diamond.itemID;
+        }
+		
 		for (int i = 0; i < 3; i++)
 		{
 			for (int j = 0; j < 3; j++)

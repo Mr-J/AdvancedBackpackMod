@@ -50,6 +50,7 @@ public class AdvancedBackpackMod {
 	public static Item baseBackpack;
 	public static Item magicBackpack;
 	public static Item powerCore;
+	public static Item diamondEye;
 	
 	@SidedProxy(clientSide="mrj.abm.proxy.ClientProxy", serverSide="mrj.abm.proxy.CommonProxy")
     public static CommonProxy proxy;
@@ -69,18 +70,29 @@ public class AdvancedBackpackMod {
         LanguageRegistry.addName(baseBackpack, "Bag of Holding");	        
         magicBackpack = new ItemBackpackMagic(ConfigurationStore.BACKPACK_MAGIC_ID - 256).setUnlocalizedName("Portable Pocketdimension");
         LanguageRegistry.addName(magicBackpack, "Portable Pocketdimension");	
-        powerCore = new ItemNetherPowerCore(22102-256).setUnlocalizedName("Nether Power Core");
+        powerCore = new ItemNetherPowerCore(ConfigurationStore.BACKPACK_POWERCORE_ID - 256).setUnlocalizedName("Nether Power Core");
         LanguageRegistry.addName(powerCore, "Nether Power Core");
-        
+        diamondEye = new ItemDiamondEye(ConfigurationStore.BACKPACK_DIAMONDEYE_ID - 256).setUnlocalizedName("Diamond-encased Eye of Ender");
+        LanguageRegistry.addName(diamondEye, "Diamond-encased Eye of Ender");
         
         NetworkRegistry.instance().registerGuiHandler(instance, proxy);
         
         GameRegistry.addRecipe(new ItemStack(baseBackpack), "aba", "aca", "ada", 'a', new ItemStack(Item.leather),
         		'b', new ItemStack(Item.enderPearl), 'c', new ItemStack(Block.chest), 'd', new ItemStack(Item.emerald));
-        GameRegistry.addRecipe(new ItemStack(powerCore), "aaa", "aba", "aaa", 'a', new ItemStack(Item.redstone), 
-        		'b', new ItemStack(Item.netherStar));
-        GameRegistry.addRecipe(new ItemStack(magicBackpack), "aba", "aca", "ada", 'a', new ItemStack(Item.leather),
+        
+        if (ConfigurationStore.BACKPACK_ENABLE_EASIER_RECIPES)
+        {
+            GameRegistry.addRecipe(new ItemStack(magicBackpack), "aba", "aca", "ada", 'a', new ItemStack(Item.leather),
+                    'b', new ItemStack(Item.enderPearl), 'c', new ItemStack(Block.enderChest), 'd', new ItemStack(diamondEye));
+            GameRegistry.addRecipe(new ItemStack(diamondEye), "aaa", "aba", "aaa", 'a', new ItemStack(Item.diamond), 'b', new ItemStack(Item.eyeOfEnder));
+        }
+        else
+        {
+            GameRegistry.addRecipe(new ItemStack(magicBackpack), "aba", "aca", "ada", 'a', new ItemStack(Item.leather),
         		'b', new ItemStack(Item.enderPearl), 'c', new ItemStack(Block.enderChest), 'd', new ItemStack(powerCore));
+            GameRegistry.addRecipe(new ItemStack(powerCore, ConfigurationStore.BACKPACK_RECIPE_CORES_PER_CRAFT), "aaa", "aba", "aaa", 
+                    'a', new ItemStack(Item.redstone), 'b', new ItemStack(Item.netherStar));
+        }
         
         CraftingManager.getInstance().getRecipeList().add(new RecipeExtendBackpackBase());
         CraftingManager.getInstance().getRecipeList().add(new RecipeExtendBackpackMagic());
