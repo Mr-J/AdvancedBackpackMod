@@ -123,8 +123,7 @@ public class ItemBackpackMagic extends ItemBackpackBase {
     }
 	
 	@Override
-    //public void func_94581_a(IconRegister iconRegister)
-	public void updateIcons(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
     {
 		icons = new Icon[2];
 		icons[0] = iconRegister.registerIcon("advancedbackpackmod:backpack32colorless");
