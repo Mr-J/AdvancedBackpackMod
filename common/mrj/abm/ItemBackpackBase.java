@@ -229,8 +229,7 @@ public class ItemBackpackBase extends Item {
 	//register icons
 	@Override
 	@SideOnly(Side.CLIENT)
-    //public void func_94581_a(IconRegister iconRegister)
-	public void updateIcons(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
     {
 		icons = new Icon[2];
 		icons[0] = iconRegister.registerIcon("advancedbackpackmod:backpack32colorless");

@@ -12,8 +12,9 @@ public class ItemNetherPowerCore extends Item {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateIcons(IconRegister iconRegister)
+	@Override
+	public void registerIcons(IconRegister iconRegister)
     {
-		this.iconIndex = iconRegister.registerIcon("advancedbackpackmod:netherpowercore");
+		this.itemIcon = iconRegister.registerIcon("advancedbackpackmod:netherpowercore");
     }
 }

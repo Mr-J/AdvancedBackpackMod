@@ -12,8 +12,9 @@ public class ItemDiamondEye extends Item {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateIcons(IconRegister iconRegister)
+	@Override
+	public void registerIcons(IconRegister iconRegister)
     {
-		this.iconIndex = iconRegister.registerIcon("advancedbackpackmod:diamondeye");
+		this.itemIcon = iconRegister.registerIcon("advancedbackpackmod:diamondeye");
     }
 }
